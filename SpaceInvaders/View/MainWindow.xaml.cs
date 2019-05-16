@@ -26,35 +26,54 @@ namespace View
         private System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
         private Double direction = 5;
         private Thread t;
+        private int row = 1;
+        private int maxRow = 10;
 
         public MainWindow()
         {
             InitializeComponent();
-            erstelleplayer();
+            gameStart();
             t = new Thread(new ThreadStart(alienMove));
         }
 
-        private void erstelleplayer()
+        private void gameStart()
         {
+            //Create Player
             this.player = new Player();
             this.img = new Image();
             playground.Children.Add(img);
             img.Source = new BitmapImage(player.Look);
-            double left = playground.ActualWidth/2;
+            double left = playground.Width / 2;
             img.Height = 20;
             img.Width = 35;
-            Canvas.SetLeft(img, 50);
+            Canvas.SetLeft(img, left);
             Canvas.SetBottom(img, 15);
             img.Visibility = Visibility.Visible;
-        }
 
+            //Create 3 rows of enemys at the start of game
+            while (row <= 3)
+            {
+                for (int j = 1; j <= 10; j++)
+                {
+                    Alien a = new Alien();
+                    Image imga = new Image();
+                    imga.Source = new BitmapImage(a.Look);
+                    playground.Children.Add(imga);
+                    imga.Height = 20;
+                    imga.Width = 35;
+                    Canvas.SetLeft(imga, playground.Width/10*j - imga.Width);
+                    Canvas.SetTop(imga, row * 30);
+                    imga.Visibility = Visibility.Visible;
+                    aliens.Add(imga);
+                }
+                row++;
+            }
+        }
         private void alienMove()
         {
             Double posx;
             Double posy;
-            int reihen = 0;
 
-            createRow();
             while (player.Life != 0 || aliens != null)
             {
                 for (int i = 0; i < 5; i++)
@@ -75,11 +94,11 @@ namespace View
                     {
                         player.Hit();
                     }
-                    if (reihen != 5)
+                    if (row != 10)
                     {
                         createRow();
                     }
-                    reihen++;
+                    row++;
                 }
             }
 
@@ -91,7 +110,7 @@ namespace View
 
         private void createRow()
         {
-            for (int j = 0; j < 15; j++)
+            for (int j = 1; j < 16; j++)
             {
                 Alien a = new Alien();
                 Image imga = new Image();
@@ -108,6 +127,7 @@ namespace View
                 Canvas.SetTop(imga, 0);
                 imga.Height = 5;
                 imga.Width = 5;
+                img.Visibility = Visibility.Visible;
                 aliens.Add(imga);
             }
         }
@@ -115,7 +135,7 @@ namespace View
         private void playground_MouseMove(object sender, MouseEventArgs e)
         {
             Point p = e.GetPosition(this);
-            Canvas.SetLeft(img, p.X);
+            Canvas.SetLeft(img, p.X - img.Width/2);
         }
     }
 }
