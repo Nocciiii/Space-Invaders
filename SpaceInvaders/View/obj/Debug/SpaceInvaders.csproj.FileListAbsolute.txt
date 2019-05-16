@@ -1,0 +1,14 @@
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\bin\Debug\View.exe.config
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\bin\Debug\View.exe
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\bin\Debug\View.pdb
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\obj\Debug\SpaceInvaders.csprojResolveAssemblyReference.cache
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\obj\Debug\MainWindow.g.cs
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\obj\Debug\App.g.cs
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\obj\Debug\View_MarkupCompile.cache
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\obj\Debug\View_MarkupCompile.lref
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\obj\Debug\MainWindow.baml
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\obj\Debug\View.g.resources
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\obj\Debug\View.Properties.Resources.resources
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\obj\Debug\SpaceInvaders.csproj.GenerateResource.Cache
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\obj\Debug\View.exe
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invader-master\Space-Invader-master\MVVMSpaceinvaders\View\obj\Debug\View.pdb
