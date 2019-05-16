@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,28 +20,26 @@ namespace View
     /// </summary>5
     public partial class MainWindow : Window
     {
-        private Spieler spieler;
+        private Player player;
         private Image img;
         private List<Image> aliens = new List<Image>();
-        System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
-        Double richtung = 5;
+        private System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+        private Double direction = 5;
+        private Thread t;
 
         public MainWindow()
         {
             InitializeComponent();
-            erstelleSpieler();
-            timer.Interval = TimeSpan.FromSeconds(0.05);
-            timer.Tick += ticker;
-            timer.IsEnabled = true;
+            erstelleplayer();
         }
 
-        private void erstelleSpieler()
+        private void erstelleplayer()
         {
-            this.spieler = new Spieler();
+            this.player = new Player();
             this.img = new Image();
-            spielfeld.Children.Add(img);
-            img.Source = new BitmapImage(spieler.Aussehen);
-            double left = spielfeld.ActualWidth/2;
+            playground.Children.Add(img);
+            img.Source = new BitmapImage(player.Look);
+            double left = playground.ActualWidth/2;
             img.Height = 20;
             img.Width = 35;
             Canvas.SetLeft(img, 50);
@@ -48,46 +47,46 @@ namespace View
             img.Visibility = Visibility.Visible;
         }
 
-        private void ticker(object sender, EventArgs e)
+        private void alienMove()
         {
             Double posx;
             Double posy;
             int reihen = 0;
 
-            erstelleReihe();
-            while (spieler.Leben != 0)
+            createRow();
+            while (player.Life != 0)
             {
                 foreach (Image img in aliens)
                 {
                     posx = Canvas.GetLeft(img);
-                    posx = posx + richtung;
+                    posx = posx + direction;
                 }
             }
-            richtung = -richtung;
+            direction = -direction;
             foreach (Image img in aliens)
             {
                 posy = Canvas.GetTop(img);
                 posy = posy + 5;
                 if (posy >= Canvas.GetTop(img))
                 {
-                    spieler.Treffer();
+                    player.Hit();
                 }
                 if (reihen != 5)
                 {
-                    erstelleReihe();
+                    createRow();
                 }
                 reihen++;
             }
         }
-        private void erstelleReihe()
+        private void createRow()
         {
             for (int j = 0; j < 15; j++)
             {
                 Alien a = new Alien();
                 Image imga = new Image();
-                imga.Source = new BitmapImage(a.Aussehen);
-                spielfeld.Children.Add(imga);
-                if (richtung == 5)
+                imga.Source = new BitmapImage(a.Look);
+                playground.Children.Add(imga);
+                if (direction == 5)
                 {
                     Canvas.SetLeft(imga, 0 + j * 5);
                 }
@@ -103,7 +102,7 @@ namespace View
             }
         }
 
-        private void spielfeld_MouseMove(object sender, MouseEventArgs e)
+        private void playground_MouseMove(object sender, MouseEventArgs e)
         {
             Point p = e.GetPosition(this);
             Canvas.SetLeft(img, p.X);

@@ -55,9 +55,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Alien.cs" />
-    <Compile Include="Barriere.cs" />
-    <Compile Include="Schuss.cs" />
-    <Compile Include="Spieler.cs" />
+    <Compile Include="Barrier.cs" />
+    <Compile Include="Shot.cs" />
+    <Compile Include="Player.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Alien
+    class Barrier
     {
-        private Uri look = new Uri("Alien1.png", UriKind.Relative);
-
-
-        public Uri Look { get => look; set => look = value; }
     }
 }
