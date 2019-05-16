@@ -31,6 +31,7 @@ namespace View
         {
             InitializeComponent();
             erstelleplayer();
+            t = new Thread(new ThreadStart(alienMove));
         }
 
         private void erstelleplayer()
@@ -54,30 +55,40 @@ namespace View
             int reihen = 0;
 
             createRow();
-            while (player.Life != 0)
+            while (player.Life != 0 || aliens != null)
             {
+                for (int i = 0; i < 5; i++)
+                {
+                    foreach (Image img in aliens)
+                    {
+                        posx = Canvas.GetLeft(img);
+                        posx = posx + direction;
+                    }
+                }
+            
+                direction = -direction;
                 foreach (Image img in aliens)
                 {
-                    posx = Canvas.GetLeft(img);
-                    posx = posx + direction;
+                    posy = Canvas.GetTop(img);
+                    posy = posy + 5;
+                    if (posy >= Canvas.GetTop(img))
+                    {
+                        player.Hit();
+                    }
+                    if (reihen != 5)
+                    {
+                        createRow();
+                    }
+                    reihen++;
                 }
             }
-            direction = -direction;
-            foreach (Image img in aliens)
+
+            if(player.Life <= 0)
             {
-                posy = Canvas.GetTop(img);
-                posy = posy + 5;
-                if (posy >= Canvas.GetTop(img))
-                {
-                    player.Hit();
-                }
-                if (reihen != 5)
-                {
-                    createRow();
-                }
-                reihen++;
+                //Am Ende eine eigene Seite für Game Over und Abgeschlossen
             }
         }
+
         private void createRow()
         {
             for (int j = 0; j < 15; j++)
@@ -98,7 +109,6 @@ namespace View
                 imga.Height = 5;
                 imga.Width = 5;
                 aliens.Add(imga);
-
             }
         }
 
