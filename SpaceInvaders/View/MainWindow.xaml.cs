@@ -23,7 +23,6 @@ namespace View
         private Player player;
         private Image img;
         private List<Image> aliens = new List<Image>();
-        private System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
         private Double direction = 5;
         private Thread t;
         private int row = 1;
@@ -33,7 +32,8 @@ namespace View
         {
             InitializeComponent();
             gameStart();
-            t = new Thread(new ThreadStart(alienMove));
+            this.t = new Thread(alienMove);
+            t.Start();
         }
 
         private void gameStart()
@@ -53,7 +53,7 @@ namespace View
             //Create 3 rows of enemys at the start of game
             while (row <= 3)
             {
-                for (int j = 1; j <= 10; j++)
+                for (int j = 1; j <= 9; j++)
                 {
                     Alien a = new Alien();
                     Image imga = new Image();
@@ -61,7 +61,7 @@ namespace View
                     playground.Children.Add(imga);
                     imga.Height = 20;
                     imga.Width = 35;
-                    Canvas.SetLeft(imga, playground.Width/10*j - imga.Width);
+                    Canvas.SetLeft(imga, (playground.Width - img.Width)/10*j - imga.Width);
                     Canvas.SetTop(imga, row * 30);
                     imga.Visibility = Visibility.Visible;
                     aliens.Add(imga);
@@ -78,23 +78,24 @@ namespace View
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    foreach (Image img in aliens)
+                    foreach (Image imgl in aliens)
                     {
-                        posx = Canvas.GetLeft(img);
+                        posx = Canvas.GetLeft(imgl);
                         posx = posx + direction;
+                        Canvas.SetLeft(imgl, posx);
                     }
                 }
             
                 direction = -direction;
-                foreach (Image img in aliens)
+                foreach (Image imga in aliens)
                 {
-                    posy = Canvas.GetTop(img);
+                    posy = Canvas.GetTop(imga);
                     posy = posy + 5;
                     if (posy >= Canvas.GetTop(img))
                     {
                         player.Hit();
                     }
-                    if (row != 10)
+                    if (row <= maxRow)
                     {
                         createRow();
                     }
@@ -132,10 +133,10 @@ namespace View
             }
         }
 
-        private void playground_MouseMove(object sender, MouseEventArgs e)
+        private void Window_MouseMove(object sender, MouseEventArgs e)
         {
             Point p = e.GetPosition(this);
-            Canvas.SetLeft(img, p.X - img.Width/2);
+            Canvas.SetLeft(img, p.X - img.Width / 2);
         }
     }
 }
