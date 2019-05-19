@@ -91,6 +91,7 @@ namespace View
                 {
                     posy = Canvas.GetTop(imga);
                     posy = posy + 5;
+		    Canvas.SetTop(imga,posy);
                     if (posy >= Canvas.GetTop(img))
                     {
                         player.Hit();
