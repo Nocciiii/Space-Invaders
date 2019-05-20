@@ -45,7 +45,9 @@ namespace View
                 h.Points = Convert.ToInt32(reader["points"].ToString());
                 listHighscores.Add(h);
             }
-            
+
+
+           listHighscores.OrderBy(x => x.Points);
 
             con.Close();
         }
