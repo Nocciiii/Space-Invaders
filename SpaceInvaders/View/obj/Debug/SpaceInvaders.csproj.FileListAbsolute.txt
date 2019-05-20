@@ -26,3 +26,26 @@ C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\View\obj\Deb
 C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\View\obj\Debug\SpaceInvaders.csproj.GenerateResource.Cache
 C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.exe
 C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.pdb
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\bin\Debug\View.exe.config
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\bin\Debug\View.exe
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\bin\Debug\View.pdb
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\SpaceInvaders.csprojAssemblyReference.cache
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainWindow.g.cs
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\App.g.cs
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View_MarkupCompile.cache
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View_MarkupCompile.lref
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainWindow.baml
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.g.resources
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.Properties.Resources.resources
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\SpaceInvaders.csproj.GenerateResource.cache
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\SpaceInvaders.csproj.CoreCompileInputs.cache
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.exe
+C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.pdb
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invaders-master (1)\Space-Invaders-master\SpaceInvaders\View\obj\Debug\SpaceInvaders.csprojResolveAssemblyReference.cache
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invaders-master (1)\Space-Invaders-master\SpaceInvaders\View\obj\Debug\GameOverScreen.g.cs
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invaders-master (1)\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainWindow.g.cs
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invaders-master (1)\Space-Invaders-master\SpaceInvaders\View\obj\Debug\App.g.cs
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invaders-master (1)\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View_MarkupCompile.cache
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invaders-master (1)\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View_MarkupCompile.lref
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invaders-master (1)\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.exe
+C:\Users\KuemmertJamie\Documents\Visual Studio 2017\Projects\Space-Invaders-master (1)\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.pdb
