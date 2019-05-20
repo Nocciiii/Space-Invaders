@@ -25,9 +25,11 @@ namespace View
         private List<Image> aliens = new List<Image>();
         private List<Alien> alienObject = new List<Alien>();
         private Double direction = 5;
-        private Thread t;
+        private List<Thread> threads = new List<Thread>();
         private int row = 1;
         private int maxRow = 10;
+        private int rowDown = 5;
+        private int rowDifference = 30;
 
         public MainWindow()
         {
@@ -60,7 +62,7 @@ namespace View
                     Image imga = new Image();
                     imga.Height = 20;
                     imga.Width = 35;
-                    Alien a = new Alien((playground.Width - img.Width) / 10 * j - imga.Width, row * 30);
+                    Alien a = new Alien((playground.Width - img.Width) / 10 * j - imga.Width, row * rowDifference);
                     imga.Source = new BitmapImage(a.Look);
                     playground.Children.Add(imga);
                     Canvas.SetLeft(imga, a.Xpos);
@@ -77,9 +79,11 @@ namespace View
         private void alienMove(MainWindow main)
         {
             int j = 0;
+            int rowMovement = 0;
 
             while (player.Life != 0 || aliens != null)
             {
+                rowMovement += rowDown;
                 for (int i = 0; i < 5; i++)
                 {
                     j = 0;
@@ -99,17 +103,17 @@ namespace View
                 foreach (Image imga in aliens)
                 {
                     Alien alien = alienObject.ElementAt(j);
-                    alien.Ypos = alien.Ypos + 5;
+                    alien.Ypos = alien.Ypos + rowDown;
                     Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
                     if (alien.Ypos >= player.Ypos)
                     {
                         player.Hit();
                     }
-                    if (row <= maxRow)
+                    if (row <= maxRow && rowDifference == rowMovement)
                     {
-                        //createRow();
+                        Dispatcher.BeginInvoke(new Action(() => createRow()));
+                        rowMovement = 0;
                     }
-                    row++;
                     j++;
                 }
             }
@@ -122,26 +126,21 @@ namespace View
 
         private void createRow()
         {
-            for (int j = 1; j < 16; j++)
+            for (int j = 1; j < 9; j++)
             {
-                Alien a = new Alien(0, 0);
                 Image imga = new Image();
+                imga.Height = 20;
+                imga.Width = 35;
+                Alien a = new Alien((playground.Width - img.Width) / 10 * j - imga.Width, rowDifference);
                 imga.Source = new BitmapImage(a.Look);
                 playground.Children.Add(imga);
-                if (direction == 5)
-                {
-                    Canvas.SetLeft(imga, 0 + j * 5);
-                }
-                else
-                {
-                    Canvas.SetRight(imga, 0 + j * 5);
-                }
-                Canvas.SetTop(imga, 0);
-                imga.Height = 5;
-                imga.Width = 5;
-                img.Visibility = Visibility.Visible;
+                Canvas.SetLeft(imga, a.Xpos);
+                Canvas.SetTop(imga, a.Ypos);
+                imga.Visibility = Visibility.Visible;
                 aliens.Add(imga);
+                alienObject.Add(a);
             }
+            row++;
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
@@ -160,8 +159,17 @@ namespace View
 
         private void playground_Loaded(object sender, RoutedEventArgs e)
         {
-            t = new Thread(() => alienMove(this));
+            Thread t = new Thread(() => alienMove(this));
             t.Start();
+            threads.Add(t);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            foreach(Thread t in threads)
+            {
+                t.Interrupt();
+            }
         }
     }
 }
