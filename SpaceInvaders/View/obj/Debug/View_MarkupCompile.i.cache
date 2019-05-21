@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\App.xaml
-11151548125
+355368345
 
-13-899110073
+16-1433263062
 13738642453
-MainWindow.xaml;
+GameOverScreen.xaml;HighscoreList.xaml;MainWindow.xaml;
 
 True
 

@@ -30,6 +30,7 @@ namespace View
         private int maxRow = 10;
         private int rowDown = 5;
         private int rowDifference = 30;
+        private int highscore = 0;
 
         public MainWindow()
         {
@@ -120,11 +121,7 @@ namespace View
                 }
 
             }
-
-            if (player.Life <= 0)
-            {
-                //Am Ende eine eigene Seite für Game Over und Abgeschlossen
-            }
+            gameover();
         }
 
         private void playerHealth(Alien alien, Image imgl)
@@ -190,5 +187,17 @@ namespace View
                 t.Interrupt();
             }*/
         }
+        private void gameover()
+        {
+            bool sieg = true;
+            if (player.Life == 0)
+            {
+                sieg = false;
+            }
+            GameOverScreen gameover = new GameOverScreen(sieg, highscore);
+            this.Visibility = Visibility.Hidden;
+            gameover.Visibility = Visibility.Visible;
+        }
     }
+    
 }
