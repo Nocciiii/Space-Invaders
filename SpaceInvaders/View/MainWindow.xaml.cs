@@ -23,121 +23,177 @@ namespace View
         private Player player;
         private Image img;
         private List<Image> aliens = new List<Image>();
+        private List<Alien> alienObject = new List<Alien>();
         private Double direction = 5;
-        private Thread t;
+        private List<Thread> threads = new List<Thread>();
         private int row = 1;
         private int maxRow = 10;
+        private int rowDown = 5;
+        private int rowDifference = 30;
 
         public MainWindow()
         {
             InitializeComponent();
             gameStart();
-            this.t = new Thread(alienMove);
-            t.Start();
         }
 
         private void gameStart()
         {
             //Create Player
-            this.player = new Player();
+            Double playerY = playground.Height / 100 * 90;
             this.img = new Image();
-            playground.Children.Add(img);
-            img.Source = new BitmapImage(player.Look);
-            double left = playground.Width / 2;
             img.Height = 20;
             img.Width = 35;
+            double left = playground.Width / 2;
+            this.player = new Player(left, playerY);
+
+            playground.Children.Add(img);
+            img.Source = new BitmapImage(player.Look);
+
+
             Canvas.SetLeft(img, left);
-            Canvas.SetBottom(img, 15);
+            Canvas.SetTop(img, playerY);
             img.Visibility = Visibility.Visible;
 
             //Create 3 rows of enemys at the start of game
             while (row <= 3)
             {
-                for (int j = 1; j <= 9; j++)
+                for (int j = 9; j >= 1; j--)
                 {
-                    Alien a = new Alien();
+                    
                     Image imga = new Image();
-                    imga.Source = new BitmapImage(a.Look);
-                    playground.Children.Add(imga);
                     imga.Height = 20;
                     imga.Width = 35;
-                    Canvas.SetLeft(imga, (playground.Width - img.Width)/10*j - imga.Width);
-                    Canvas.SetTop(imga, row * 30);
+                    Alien a = new Alien((playground.Width - img.Width) / 10 * j - imga.Width, row * rowDifference, row);
+                    imga.Source = new BitmapImage(a.Look);
+                    playground.Children.Add(imga);
+                    Canvas.SetLeft(imga, a.Xpos);
+                    Canvas.SetTop(imga, a.Ypos);
                     imga.Visibility = Visibility.Visible;
                     aliens.Add(imga);
+                    alienObject.Add(a);
                 }
                 row++;
             }
+            
         }
-        private void alienMove()
+
+        private void alienMove(MainWindow main)
         {
-            Double posx;
-            Double posy;
+            int j = 0;
+            int rowMovement = 0;
 
             while (player.Life != 0 || aliens != null)
             {
                 for (int i = 0; i < 5; i++)
                 {
+                    j = 0;
                     foreach (Image imgl in aliens)
                     {
-                        posx = Canvas.GetLeft(imgl);
-                        posx = posx + direction;
-                        Canvas.SetLeft(imgl, posx);
+                        Alien alien = alienObject.ElementAt(j);
+                        if (alien.Dead == false)
+                        {
+                            alien.Xpos = alien.Xpos + direction;
+                            Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
+                            j++;
+                        }
                     }
+                   Thread.Sleep(100);
                 }
-            
+                rowMovement += rowDown;
+                j = 0;
+
+                
+
                 direction = -direction;
-                foreach (Image imga in aliens)
+                foreach (Image imgl in aliens)
                 {
-                    posy = Canvas.GetTop(imga);
-                    posy = posy + 5;
-		    Canvas.SetTop(imga,posy);
-                    if (posy >= Canvas.GetTop(img))
+                    Alien alien = alienObject.ElementAt(j);
+                    if (alien.Dead == false)
                     {
-                        player.Hit();
+                        alien.Ypos = alien.Ypos + rowDown;
+                        Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
+                        Dispatcher.BeginInvoke(new Action(() => playerHealth(alien, imgl)));
+
+                        j++;
                     }
-                    if (row <= maxRow)
-                    {
-                        createRow();
-                    }
-                    row++;
                 }
+                if (row <= maxRow && rowMovement == rowDifference && direction > 0)
+                {
+                    Dispatcher.BeginInvoke(new Action(() => createRow()));
+                    rowMovement = 0;
+                }
+
             }
 
-            if(player.Life <= 0)
+            if (player.Life <= 0)
             {
                 //Am Ende eine eigene Seite für Game Over und Abgeschlossen
             }
         }
 
+        private void playerHealth(Alien alien, Image imgl)
+        {
+            if (alien.Ypos >= player.Ypos - img.Height && alien.Ypos <= player.Ypos - img.Height + rowDown)
+            {
+                if (alien.Xpos + imgl.Width >= player.Xpos && alien.Xpos  <= player.Xpos + img.Width)
+                {
+                    player.Hit();
+                }
+                playground.Children.Remove(imgl);
+                if (player.Life <= 0)
+                {
+                    playground.Children.Remove(img);
+                }
+            }
+        }
+
         private void createRow()
         {
-            for (int j = 1; j < 16; j++)
+            for (int j = 1; j <= 9; j++)
             {
-                Alien a = new Alien();
                 Image imga = new Image();
+                imga.Height = 20;
+                imga.Width = 35;
+                Alien a = new Alien((playground.Width - img.Width) / 10 * j - imga.Width + direction, rowDifference, row);
                 imga.Source = new BitmapImage(a.Look);
                 playground.Children.Add(imga);
-                if (direction == 5)
-                {
-                    Canvas.SetLeft(imga, 0 + j * 5);
-                }
-                else
-                {
-                    Canvas.SetRight(imga, 0 + j * 5);
-                }
-                Canvas.SetTop(imga, 0);
-                imga.Height = 5;
-                imga.Width = 5;
-                img.Visibility = Visibility.Visible;
+                Canvas.SetLeft(imga, a.Xpos);
+                Canvas.SetTop(imga, a.Ypos);
+                imga.Visibility = Visibility.Visible;
                 aliens.Add(imga);
+                alienObject.Add(a);
             }
+            row++;
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
             Point p = e.GetPosition(this);
             Canvas.SetLeft(img, p.X - img.Width / 2);
+            player.Xpos = p.X - img.Width / 2;
+        }
+
+        public void changeAlienPos(Alien alien)
+        {
+            Image imga = aliens.ElementAt(alien.Id);
+            Canvas.SetLeft(imga, alien.Xpos);
+            Canvas.SetTop(imga, alien.Ypos);
+        }
+
+        private void playground_Loaded(object sender, RoutedEventArgs e)
+        {
+            Thread t = new Thread(() => alienMove(this));
+            t.Start();
+            threads.Add(t);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            /*foreach(Thread t in threads)
+            {
+                t.Interrupt();
+            }*/
         }
     }
 }
