@@ -17,7 +17,6 @@ namespace Model
         private Double xpos;
         private Double ypos;
         public event PropertyChangedEventHandler PropertyChanged;
-
         public Alien(Double xpos, Double ypos, int currentRow)
         {
             this.Xpos = xpos;
@@ -41,5 +40,6 @@ namespace Model
         public double Ypos { get => ypos; set { ypos = value; OnPropertyChanged("Ypos"); } }
         public int Id { get => id; }
         public int CurrentRow { get => currentRow; set => currentRow = value; }
+        public bool Dead { get => dead; set => dead = value; }
     }
 }

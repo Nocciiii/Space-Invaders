@@ -41,3 +41,17 @@ C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\Spac
 C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\SpaceInvaders.csproj.CoreCompileInputs.cache
 C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.exe
 C:\Users\timoa\Documents\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.pdb
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\bin\Debug\View.exe.config
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\bin\Debug\View.exe
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\bin\Debug\View.pdb
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\SpaceInvaders.csprojResolveAssemblyReference.cache
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\MainWindow.g.cs
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\App.g.cs
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\View_MarkupCompile.cache
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\View_MarkupCompile.lref
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\MainWindow.baml
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\View.g.resources
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\View.Properties.Resources.resources
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\SpaceInvaders.csproj.GenerateResource.Cache
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\View.exe
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\View.pdb

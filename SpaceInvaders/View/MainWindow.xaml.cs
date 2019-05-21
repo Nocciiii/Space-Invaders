@@ -58,7 +58,7 @@ namespace View
             //Create 3 rows of enemys at the start of game
             while (row <= 3)
             {
-                for (int j = 1; j <= 9; j++)
+                for (int j = 9; j >= 1; j--)
                 {
                     
                     Image imga = new Image();
@@ -91,9 +91,12 @@ namespace View
                     foreach (Image imgl in aliens)
                     {
                         Alien alien = alienObject.ElementAt(j);
-                        alien.Xpos = alien.Xpos + direction;
-                        Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
-                        j++;
+                        if (alien.Dead == false)
+                        {
+                            alien.Xpos = alien.Xpos + direction;
+                            Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
+                            j++;
+                        }
                     }
                    Thread.Sleep(100);
                 }
@@ -106,11 +109,14 @@ namespace View
                 foreach (Image imgl in aliens)
                 {
                     Alien alien = alienObject.ElementAt(j);
-                    alien.Ypos = alien.Ypos + rowDown;
-                    Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
-                    Dispatcher.BeginInvoke(new Action(() => playerHealth(alien, imgl)));
+                    if (alien.Dead == false)
+                    {
+                        alien.Ypos = alien.Ypos + rowDown;
+                        Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
+                        Dispatcher.BeginInvoke(new Action(() => playerHealth(alien, imgl)));
 
-                    j++;
+                        j++;
+                    }
                 }
                 if (row <= maxRow && rowMovement == rowDifference && direction > 0)
                 {
@@ -128,9 +134,9 @@ namespace View
 
         private void playerHealth(Alien alien, Image imgl)
         {
-            if (alien.Ypos >= player.Ypos - img.Height)
+            if (alien.Ypos >= player.Ypos - img.Height && alien.Ypos <= player.Ypos - img.Height + rowDown)
             {
-                if (alien.Xpos + imgl.Width >= player.Xpos || alien.Xpos  <= player.Xpos + img.Width)
+                if (alien.Xpos + imgl.Width >= player.Xpos && alien.Xpos  <= player.Xpos + img.Width)
                 {
                     player.Hit();
                 }
