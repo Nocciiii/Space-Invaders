@@ -91,12 +91,9 @@ namespace View
                     foreach (Image imgl in aliens)
                     {
                         Alien alien = alienObject.ElementAt(j);
-                        if (alien.Dead == false)
-                        {
-                            alien.Xpos = alien.Xpos + direction;
-                            Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
-                            j++;
-                        }
+                        alien.Xpos = alien.Xpos + direction;
+                        Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
+                        j++;
                     }
                    Thread.Sleep(100);
                 }
@@ -109,14 +106,12 @@ namespace View
                 foreach (Image imgl in aliens)
                 {
                     Alien alien = alienObject.ElementAt(j);
-                    if (alien.Dead == false)
-                    {
-                        alien.Ypos = alien.Ypos + rowDown;
-                        Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
-                        Dispatcher.BeginInvoke(new Action(() => playerHealth(alien, imgl)));
+                    alien.Ypos = alien.Ypos + rowDown;
+                    Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
+                    Dispatcher.BeginInvoke(new Action(() => playerHealth(alien, imgl)));
 
-                        j++;
-                    }
+                    j++;
+                    
                 }
                 if (row <= maxRow && rowMovement == rowDifference && direction > 0)
                 {
