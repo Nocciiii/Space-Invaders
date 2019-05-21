@@ -55,3 +55,7 @@ C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\
 C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\SpaceInvaders.csproj.GenerateResource.Cache
 C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\View.exe
 C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\View.pdb
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\GameOverScreen.g.cs
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\HighscoreList.g.cs
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\GameOverScreen.baml
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-EnemyMovement\SpaceInvaders\View\obj\Debug\HighscoreList.baml

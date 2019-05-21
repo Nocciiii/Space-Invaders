@@ -31,6 +31,7 @@ namespace View
         private int rowDown = 5;
         private int rowDifference = 30;
         private int highscore = 0;
+        private Boolean end = false;
 
         public MainWindow()
         {
@@ -121,7 +122,6 @@ namespace View
                 }
 
             }
-            gameover();
         }
 
         private void playerHealth(Alien alien, Image imgl)
@@ -133,9 +133,11 @@ namespace View
                     player.Hit();
                 }
                 playground.Children.Remove(imgl);
-                if (player.Life <= 0)
+                if (player.Life <= 0 && end == false)
                 {
+                    end = true;
                     playground.Children.Remove(img);
+                    gameover();
                 }
             }
         }
