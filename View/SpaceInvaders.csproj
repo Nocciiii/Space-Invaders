@@ -56,8 +56,23 @@
     </ApplicationDefinition>
     <Compile Include="Alien.cs" />
     <Compile Include="Barrier.cs" />
+    <Compile Include="GameOverScreen.xaml.cs">
+      <DependentUpon>GameOverScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Highscore.cs" />
+    <Compile Include="HighscoreList.xaml.cs">
+      <DependentUpon>HighscoreList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shot.cs" />
     <Compile Include="Player.cs" />
+    <Page Include="GameOverScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HighscoreList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -102,6 +117,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Alien1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="shot.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Alien2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
