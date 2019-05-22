@@ -8,16 +8,17 @@ namespace Model
 {
     public class Shot
     {
-        Double posx;
-        Double posy;
+        private Double xpos;
+        private Double ypos;
+        private Boolean isPlayer;
+        private Boolean alive = true;
+        private Uri look = new Uri("shot.jpg", UriKind.Relative);
 
-        public Boolean alive;
-        public Shot()
+        public Shot(Double xpos, Double ypos, Boolean isPlayer)
         {
-            while(alive==true)
-            {
-                MoveUP();
-            }
+            this.Xpos = xpos;
+            this.Ypos = ypos;
+            this.IsPlayer = isPlayer;
         }
 
         public void feuer(object obj)
@@ -25,9 +26,15 @@ namespace Model
             throw new NotImplementedException();
         }
 
-        public void MoveUP()
+        public void move()
         {
-           
+
         }
+
+        public double Xpos { get => xpos; set => xpos = value; }
+        public double Ypos { get => ypos; set => ypos = value; }
+        public bool IsPlayer { get => isPlayer; set => isPlayer = value; }
+        public Uri Look { get => look; set => look = value; }
+        public bool Alive { get => alive; set => alive = value; }
     }
 }

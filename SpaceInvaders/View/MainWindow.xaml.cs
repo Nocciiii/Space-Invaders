@@ -29,6 +29,7 @@ namespace View
         private int row = 1;
         private int maxRow = 10;
         private int rowDown = 5;
+        private Double shotDirection;
         private int rowDifference = 30;
         private int highscore = 0;
         private Boolean end = false;
@@ -36,6 +37,7 @@ namespace View
         public MainWindow()
         {
             InitializeComponent();
+            shotDirection = playground.Height / 100 * 5;
             gameStart();
         }
 
@@ -60,7 +62,7 @@ namespace View
             //Create 3 rows of enemys at the start of game
             while (row <= 3)
             {
-                for (int j = 9; j >= 1; j--)
+                for (int j = 10; j >= 1; j--)
                 {
                     
                     Image imga = new Image();
@@ -130,7 +132,10 @@ namespace View
             {
                 if (alien.Xpos + imgl.Width >= player.Xpos && alien.Xpos  <= player.Xpos + img.Width)
                 {
-                    player.Hit();
+                    if (alien.Dead == false)
+                    {
+                        player.Hit();
+                    }
                 }
                 playground.Children.Remove(imgl);
                 if (player.Life <= 0 && end == false)
@@ -144,7 +149,7 @@ namespace View
 
         private void createRow()
         {
-            for (int j = 1; j <= 9; j++)
+            for (int j = 1; j <= 10; j++)
             {
                 Image imga = new Image();
                 imga.Height = 20;
@@ -199,6 +204,71 @@ namespace View
             GameOverScreen gameover = new GameOverScreen(sieg, highscore);
             this.Visibility = Visibility.Hidden;
             gameover.Visibility = Visibility.Visible;
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Image imgs = new Image();
+            imgs.Height = 10;
+            imgs.Width = 10;
+            Shot shot = new Shot(player.Xpos + img.Width / 2 - imgs.Width / 2, player.Ypos - img.Height, true);
+            imgs.Source = new BitmapImage(shot.Look);
+            playground.Children.Add(imgs);
+            Canvas.SetLeft(imgs, shot.Xpos);
+            Canvas.SetTop(imgs, shot.Ypos);
+            imgs.Visibility = Visibility.Visible;
+
+            Thread t = new Thread(() => shotMove(shot, imgs));
+            t.Start();
+            threads.Add(t);
+        }
+
+        private void shotMove(Shot shot, Image imgs)
+        {
+            Double shotMove = shotDirection;
+            if(shot.IsPlayer == true)
+            {
+                shotMove = -shotMove;
+            }
+            while(shot.Alive == true)
+            {
+                shot.Ypos = shot.Ypos + shotMove;
+                Dispatcher.BeginInvoke(new Action(() => changeShotPos(shot, imgs)));
+                Thread.Sleep(100);
+            }
+        }
+
+        private void changeShotPos(Shot shot, Image imgs)
+        {
+            Canvas.SetLeft(imgs, shot.Xpos);
+            Canvas.SetTop(imgs, shot.Ypos);
+
+            if (shot.Ypos <= 0)
+            {
+                shot.Alive = false;
+                playground.Children.Remove(imgs);   
+            }
+            int i = 0;
+            foreach (Alien alien in alienObject)
+            {
+                Image imga = aliens.ElementAt(i);
+                if (shot.IsPlayer == true)
+                {
+                    if (shot.Xpos + imgs.Width >= alien.Xpos && shot.Xpos <= alien.Xpos + imga.Width && shot.Ypos - imgs.Height >= alien.Ypos - shotDirection && shot.Ypos <= alien.Ypos - imgs.Height + shotDirection)
+                    {
+                        if (alien.Dead == false)
+                        {
+                            shot.Alive = false;
+                            playground.Children.Remove(imgs);
+
+                            playground.Children.Remove(imga);
+                            alien.Dead = true;
+                        }
+                    }
+                }
+
+                i++;
+            }
         }
     }
     
