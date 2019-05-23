@@ -63,6 +63,7 @@
     <Compile Include="HighscoreList.xaml.cs">
       <DependentUpon>HighscoreList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="QuickMaths.cs" />
     <Compile Include="Shot.cs" />
     <Compile Include="Player.cs" />
     <Page Include="GameOverScreen.xaml">
@@ -120,6 +121,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="shot.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Alien2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
