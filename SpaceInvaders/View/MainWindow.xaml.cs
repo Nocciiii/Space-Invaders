@@ -96,7 +96,7 @@ namespace View
                         Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
                         j++;
                     }
-                    Thread.Sleep(50);
+                    Thread.Sleep(100);
                 }
                 rowMovement += quickMaths.RowDown;
                 j = 0;
@@ -249,9 +249,9 @@ namespace View
                 Image imga = aliens.ElementAt(i);
                 if (shot.IsPlayer == true)
                 {
-                    if (shot.Xpos + imgs.Width >= alien.Xpos && shot.Xpos <= alien.Xpos + imga.Width 
-                        && shot.Ypos - imgs.Height >= alien.Ypos - quickMaths.ShotDirection 
-                        && shot.Ypos <= alien.Ypos - imgs.Height + quickMaths.ShotDirection)
+                    if (shot.Xpos + imgs.Width >= alien.Xpos - quickMaths.Direction && shot.Xpos <= alien.Xpos + imga.Width + quickMaths.Direction 
+                        && shot.Ypos - quickMaths.ShotDirection <= alien.Ypos + imgs.Height
+                        && shot.Ypos + imgs.Height + quickMaths.ShotDirection >= alien.Ypos)
                     {
                         if (alien.Dead == false)
                         {
