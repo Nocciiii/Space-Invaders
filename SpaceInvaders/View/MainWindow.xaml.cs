@@ -25,6 +25,7 @@ namespace View
         private List<Image> aliens = new List<Image>();
         private List<Alien> alienObject = new List<Alien>();
         private List<Thread> threads = new List<Thread>();
+        private List<Image> kingdomHearts = new List<Image>();
         private int row = 1;
         private int maxRow = 10;
         private int highscore = 0;
@@ -83,6 +84,19 @@ namespace View
                 row++;
             }
             
+            for(int i = 0; i < 3; i++)
+            {
+                Image imgk = new Image();
+                imgk.Height = quickMaths.HeartHeight;
+                imgk.Width = quickMaths.HeartWidth;
+                Uri look = new Uri("KingdomHearts.png", UriKind.Relative);
+                Double xpos = quickMaths.getHeartXpos(this, i);
+                Canvas.SetTop(imgk, quickMaths.getHeartXpos(this, i));
+                Canvas.SetTop(imgk, quickMaths.getHeartYpos(this));
+                imgk.Source = new BitmapImage(look);
+                imgk.Visibility = Visibility.Visible;
+                playground.Children.Add(imgk);
+            }
         }
 
         private void alienMove(MainWindow main)
@@ -167,6 +181,12 @@ namespace View
                 imga.Visibility = Visibility.Visible;
                 aliens.Add(imga);
                 alienObject.Add(a);
+                if (a.Level == 2)
+                {
+                    Thread t = new Thread(() => battleStrats(a, imga));
+                    t.SetApartmentState(ApartmentState.STA);
+                    t.Start();
+                }
             }
             row++;
         }
@@ -219,8 +239,8 @@ namespace View
         {
             Shot shot;
             Image imgs = new Image();
-            imgs.Height = 10;
-            imgs.Width = 10;
+            imgs.Height = quickMaths.ShotHeight;
+            imgs.Width = quickMaths.ShotWidth;
             shot = new Shot(posX + imgSender.Width / 2 - imgs.Width / 2, posY - imgSender.Height, direction);
             imgs.Source = new BitmapImage(shot.Look);
             playground.Children.Add(imgs);
@@ -264,12 +284,13 @@ namespace View
                 Image imga = aliens.ElementAt(i);
                 if (shot.IsPlayer == true)
                 {
-                    if (shot.Xpos + imgs.Width >= alien.Xpos - quickMaths.Direction && shot.Xpos <= alien.Xpos + imga.Width + quickMaths.Direction 
-                        && shot.Ypos - quickMaths.ShotDirection <= alien.Ypos + imga.Height
-                        && shot.Ypos + imgs.Height + quickMaths.ShotDirection >= alien.Ypos)
+                    if (shot.Xpos + imgs.Width >= alien.Xpos && shot.Xpos <= alien.Xpos + imga.Width 
+                        && shot.Ypos <= alien.Ypos + imga.Height
+                        && shot.Ypos + imgs.Height >= alien.Ypos)
                     {
-                        if (alien.Dead == false)
+                        if (alien.Dead == false && shot.Hitted == false)
                         {
+                            shot.Hitted = true;
                             shot.Alive = false;
                             playground.Children.Remove(imgs);
 
@@ -280,12 +301,13 @@ namespace View
                 }
                 else
                 {
-                    if (shot.Xpos + imgs.Width >= player.Xpos - quickMaths.Direction && shot.Xpos <= player.Xpos + img.Width + quickMaths.Direction
-                        && shot.Ypos - quickMaths.ShotDirection <= player.Ypos + img.Height
-                        && shot.Ypos + imgs.Height - quickMaths.ShotDirection >= player.Ypos)
+                    if (shot.Xpos + imgs.Width >= player.Xpos && shot.Xpos <= player.Xpos + img.Width
+                        && shot.Ypos <= player.Ypos + img.Height
+                        && shot.Ypos + imgs.Height >= player.Ypos)
                     {
-                        if (shot.Alive == true)
+                        if (shot.Alive == true && shot.Hitted == false)
                         {
+                            shot.Hitted = true;
                             player.Hit();
                             shot.Alive = false;
                             isPlayerAlive();
@@ -300,15 +322,15 @@ namespace View
 
         private void playground_MouseMove(object sender, MouseEventArgs e)
         {
-            Mouse.OverrideCursor = Cursors.None;
+            //Mouse.OverrideCursor = Cursors.None;
         }
 
         private void battleStrats(Alien a, Image imga)
         {
             while (a.Dead == false)
             {
-                Thread.Sleep(700);
                 Dispatcher.BeginInvoke(new Action(() => createShot(a.Xpos, a.Ypos, false, imga)));
+                Thread.Sleep(7000);
             }
         }
 
