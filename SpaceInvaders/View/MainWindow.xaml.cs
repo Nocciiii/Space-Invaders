@@ -96,7 +96,7 @@ namespace View
                         Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
                         j++;
                     }
-                    Thread.Sleep(100);
+                    Thread.Sleep(50);
                 }
                 rowMovement += quickMaths.RowDown;
                 j = 0;
@@ -112,6 +112,10 @@ namespace View
                     Dispatcher.BeginInvoke(new Action(() => playerHealth(alien, imgl)));
                     j++;
                 }
+                if(player.Hitted == true)
+                {
+                    player.Hitted = false;
+                }
                 if (row <= maxRow && rowMovement >= quickMaths.RowDifference && quickMaths.Direction > 0)
                 {
                     Dispatcher.BeginInvoke(new Action(() => createRow()));
@@ -125,13 +129,13 @@ namespace View
         {
             if (alien.Ypos >= player.Ypos - img.Height && alien.Ypos <= player.Ypos - img.Height + quickMaths.RowDown)
             {
-                if (alien.Xpos + imgl.Width >= player.Xpos && alien.Xpos  <= player.Xpos + img.Width)
+                
+                if (alien.Dead == false && player.Hitted == false)
                 {
-                    if (alien.Dead == false)
-                    {
-                        player.Hit();
-                    }
+                    player.Hit();
+                    player.Hitted = true;
                 }
+                
                 playground.Children.Remove(imgl);
                 if (player.Life <= 0 && end == false)
                 {
@@ -203,6 +207,13 @@ namespace View
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
+                Thread t = new Thread(() => Dispatcher.BeginInvoke(new Action(() => createShot())));
+                t.Start();
+                threads.Add(t);
+        }
+
+        private void createShot()
+        {
             Image imgs = new Image();
             imgs.Height = quickMaths.ShotHeight;
             imgs.Width = quickMaths.ShotWidth;
@@ -250,7 +261,7 @@ namespace View
                 if (shot.IsPlayer == true)
                 {
                     if (shot.Xpos + imgs.Width >= alien.Xpos - quickMaths.Direction && shot.Xpos <= alien.Xpos + imga.Width + quickMaths.Direction 
-                        && shot.Ypos - quickMaths.ShotDirection <= alien.Ypos + imgs.Height
+                        && shot.Ypos - quickMaths.ShotDirection <= alien.Ypos + imga.Height
                         && shot.Ypos + imgs.Height + quickMaths.ShotDirection >= alien.Ypos)
                     {
                         if (alien.Dead == false)
@@ -266,6 +277,11 @@ namespace View
 
                 i++;
             }
+        }
+
+        private void playground_MouseMove(object sender, MouseEventArgs e)
+        {
+            Mouse.OverrideCursor = Cursors.None;
         }
     }
     

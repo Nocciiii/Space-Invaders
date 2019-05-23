@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" MouseMove="Window_MouseMove" Closing="Window_Closing" MouseDown="Window_MouseDown">
     <Grid>
-        <Canvas Name="playground" HorizontalAlignment="Left" Height="319" VerticalAlignment="Top" Width="517" Loaded="playground_Loaded">
+        <Canvas Name="playground" HorizontalAlignment="Left" Height="319" VerticalAlignment="Top" Width="517" Loaded="playground_Loaded" MouseMove="playground_MouseMove">
             <Canvas.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>

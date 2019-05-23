@@ -22,9 +22,9 @@ namespace View
         public QuickMaths(MainWindow main)
         {
             this.Direction = main.playground.Height / 100 * 2;
-            this.RowDown = main.playground.Height / 100 * 2;
-            this.ShotDirection = main.playground.Height / 100 * 5;
-            this.RowDifference = main.playground.Height / 100 * 11;
+            this.RowDown = main.playground.Height / 100 * 1.5;
+            this.ShotDirection = main.playground.Height / 100 * 3;
+            this.RowDifference = main.playground.Height / 100 * 9;
             this.PlayerHeight = main.playground.Height / 100 * 9;
             this.PlayerWidth = main.playground.Height / 100 * 13;
             this.AlienHeight = main.playground.Height / 100 * 9;

@@ -13,6 +13,7 @@ namespace Model
         private Uri look = new Uri("Laser_Cannon.png", UriKind.Relative);
         private Double xpos;
         private Double ypos;
+        private Boolean hitted = false;
 
         public Player(Double xpos, Double ypos)
         {
@@ -29,5 +30,6 @@ namespace Model
         public Uri Look { get => look; set => look = value; }
         public Double Xpos { get => xpos; set => xpos = value; }
         public Double Ypos { get => ypos; set => ypos = value; }
+        public bool Hitted { get => hitted; set => hitted = value; }
     }
 }
