@@ -162,6 +162,12 @@ namespace View
                 imga.Visibility = Visibility.Visible;
                 aliens.Add(imga);
                 alienObject.Add(a);
+                if(a.Level==2)
+                {
+                    Thread t = new Thread(() => battleStrats(a, imga));
+                    t.SetApartmentState(ApartmentState.STA);
+                    t.Start();
+                }
             }
             row++;
         }
@@ -197,10 +203,7 @@ namespace View
         private void gameover()
         {
             bool sieg = true;
-            if (player.Life == 0)
-            {
-                sieg = false;
-            }
+            isPlayerAlive();
             GameOverScreen gameover = new GameOverScreen(sieg, highscore);
             this.Visibility = Visibility.Hidden;
             gameover.Visibility = Visibility.Visible;
@@ -208,10 +211,16 @@ namespace View
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            createShot(player.Xpos,player.Ypos,true,img);   
+        }
+
+        public void createShot(double posX, double posY, bool direction, Image imgSender)
+        {
+            Shot shot;
             Image imgs = new Image();
             imgs.Height = 10;
             imgs.Width = 10;
-            Shot shot = new Shot(player.Xpos + img.Width / 2 - imgs.Width / 2, player.Ypos - img.Height, true);
+            shot = new Shot(posX + imgSender.Width / 2 - imgs.Width / 2, posY - imgSender.Height, direction);
             imgs.Source = new BitmapImage(shot.Look);
             playground.Children.Add(imgs);
             Canvas.SetLeft(imgs, shot.Xpos);
@@ -243,7 +252,7 @@ namespace View
             Canvas.SetLeft(imgs, shot.Xpos);
             Canvas.SetTop(imgs, shot.Ypos);
 
-            if (shot.Ypos <= 0)
+            if (shot.Ypos <= 0|| shot.Ypos>=playground.ActualHeight)
             {
                 shot.Alive = false;
                 playground.Children.Remove(imgs);   
@@ -266,8 +275,36 @@ namespace View
                         }
                     }
                 }
+                else
+                {
+                    if (shot.Xpos + imgs.Width >= player.Xpos && shot.Xpos <= player.Xpos + img.Width && shot.Ypos - imgs.Height >= player.Ypos - shotDirection && shot.Ypos <= player.Ypos - img.Height + shotDirection)
+                    {
+                        player.Hit();
+                        shot.Alive = false;
+                        isPlayerAlive();
+                        
+                    }
+                }
 
                 i++;
+            }
+        }
+        private void battleStrats(Alien a, Image imga)
+        {
+            while (a.Dead == false)
+            {
+                Thread.Sleep(700);
+                Dispatcher.BeginInvoke(new Action(() => createShot(a.Xpos,a.Ypos,false, imga)));
+            }
+        }
+
+        private void isPlayerAlive()
+        {
+            if (player.Life <= 0 && end == false)
+            {
+                end = true;
+                playground.Children.Remove(img);
+                gameover();
             }
         }
     }
