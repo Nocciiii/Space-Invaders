@@ -24,31 +24,28 @@ namespace View
         private Image img;
         private List<Image> aliens = new List<Image>();
         private List<Alien> alienObject = new List<Alien>();
-        private Double direction = 5;
         private List<Thread> threads = new List<Thread>();
         private int row = 1;
         private int maxRow = 10;
-        private int rowDown = 5;
-        private Double shotDirection;
-        private int rowDifference = 30;
         private int highscore = 0;
         private Boolean end = false;
+        private QuickMaths quickMaths;
 
         public MainWindow()
         {
             InitializeComponent();
-            shotDirection = playground.Height / 100 * 5;
+            this.quickMaths = new QuickMaths(this);
             gameStart();
         }
 
         private void gameStart()
         {
             //Create Player
-            Double playerY = playground.Height / 100 * 90;
+            Double playerY = playground.Height / 100 * 95 - quickMaths.PlayerHeight;
             this.img = new Image();
-            img.Height = 20;
-            img.Width = 35;
-            double left = playground.Width / 2;
+            img.Height = quickMaths.PlayerHeight;
+            img.Width = quickMaths.PlayerWidth;
+            Double left = playground.Width / 2;
             this.player = new Player(left, playerY);
 
             playground.Children.Add(img);
@@ -62,13 +59,13 @@ namespace View
             //Create 3 rows of enemys at the start of game
             while (row <= 3)
             {
-                for (int j = 10; j >= 1; j--)
+                for (int j = 8; j >= 1; j--)
                 {
                     
                     Image imga = new Image();
-                    imga.Height = 20;
-                    imga.Width = 35;
-                    Alien a = new Alien((playground.Width - img.Width) / 10 * j - imga.Width, row * rowDifference, row);
+                    imga.Height = quickMaths.AlienHeight;
+                    imga.Width = quickMaths.AlienWidth;
+                    Alien a = new Alien((playground.Width - img.Width) / 8 * j - imga.Width, row * quickMaths.RowDifference, row);
                     imga.Source = new BitmapImage(a.Look);
                     playground.Children.Add(imga);
                     Canvas.SetLeft(imga, a.Xpos);
@@ -85,7 +82,7 @@ namespace View
         private void alienMove(MainWindow main)
         {
             int j = 0;
-            int rowMovement = 0;
+            Double rowMovement = 0;
 
             while (player.Life != 0 || aliens != null)
             {
@@ -95,29 +92,27 @@ namespace View
                     foreach (Image imgl in aliens)
                     {
                         Alien alien = alienObject.ElementAt(j);
-                        alien.Xpos = alien.Xpos + direction;
+                        alien.Xpos = alien.Xpos + quickMaths.Direction;
                         Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
                         j++;
                     }
-                   Thread.Sleep(100);
+                    Thread.Sleep(50);
                 }
-                rowMovement += rowDown;
+                rowMovement += quickMaths.RowDown;
                 j = 0;
 
                 
 
-                direction = -direction;
+                quickMaths.Direction = -quickMaths.Direction;
                 foreach (Image imgl in aliens)
                 {
                     Alien alien = alienObject.ElementAt(j);
-                    alien.Ypos = alien.Ypos + rowDown;
+                    alien.Ypos = alien.Ypos + quickMaths.RowDown;
                     Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
                     Dispatcher.BeginInvoke(new Action(() => playerHealth(alien, imgl)));
-
                     j++;
-                    
                 }
-                if (row <= maxRow && rowMovement == rowDifference && direction > 0)
+                if (row <= maxRow && rowMovement >= quickMaths.RowDifference && quickMaths.Direction > 0)
                 {
                     Dispatcher.BeginInvoke(new Action(() => createRow()));
                     rowMovement = 0;
@@ -128,7 +123,7 @@ namespace View
 
         private void playerHealth(Alien alien, Image imgl)
         {
-            if (alien.Ypos >= player.Ypos - img.Height && alien.Ypos <= player.Ypos - img.Height + rowDown)
+            if (alien.Ypos >= player.Ypos - img.Height && alien.Ypos <= player.Ypos - img.Height + quickMaths.RowDown)
             {
                 if (alien.Xpos + imgl.Width >= player.Xpos && alien.Xpos  <= player.Xpos + img.Width)
                 {
@@ -149,12 +144,12 @@ namespace View
 
         private void createRow()
         {
-            for (int j = 1; j <= 10; j++)
+            for (int j = 1; j <= 8; j++)
             {
                 Image imga = new Image();
-                imga.Height = 20;
-                imga.Width = 35;
-                Alien a = new Alien((playground.Width - img.Width) / 10 * j - imga.Width + direction, rowDifference, row);
+                imga.Height = quickMaths.AlienHeight;
+                imga.Width = quickMaths.AlienWidth;
+                Alien a = new Alien((playground.Width - img.Width) / 8 * j - imga.Width + quickMaths.Direction, quickMaths.RowDifference, row);
                 imga.Source = new BitmapImage(a.Look);
                 playground.Children.Add(imga);
                 Canvas.SetLeft(imga, a.Xpos);
@@ -209,9 +204,9 @@ namespace View
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Image imgs = new Image();
-            imgs.Height = 10;
-            imgs.Width = 10;
-            Shot shot = new Shot(player.Xpos + img.Width / 2 - imgs.Width / 2, player.Ypos - img.Height, true);
+            imgs.Height = quickMaths.ShotHeight;
+            imgs.Width = quickMaths.ShotWidth;
+            Shot shot = new Shot(player.Xpos + img.Width / 2 - imgs.Width / 2, player.Ypos, true);
             imgs.Source = new BitmapImage(shot.Look);
             playground.Children.Add(imgs);
             Canvas.SetLeft(imgs, shot.Xpos);
@@ -225,7 +220,7 @@ namespace View
 
         private void shotMove(Shot shot, Image imgs)
         {
-            Double shotMove = shotDirection;
+            Double shotMove = quickMaths.ShotDirection;
             if(shot.IsPlayer == true)
             {
                 shotMove = -shotMove;
@@ -254,7 +249,9 @@ namespace View
                 Image imga = aliens.ElementAt(i);
                 if (shot.IsPlayer == true)
                 {
-                    if (shot.Xpos + imgs.Width >= alien.Xpos && shot.Xpos <= alien.Xpos + imga.Width && shot.Ypos - imgs.Height >= alien.Ypos - shotDirection && shot.Ypos <= alien.Ypos - imgs.Height + shotDirection)
+                    if (shot.Xpos + imgs.Width >= alien.Xpos && shot.Xpos <= alien.Xpos + imga.Width 
+                        && shot.Ypos - imgs.Height >= alien.Ypos - quickMaths.ShotDirection 
+                        && shot.Ypos <= alien.Ypos - imgs.Height + quickMaths.ShotDirection)
                     {
                         if (alien.Dead == false)
                         {
