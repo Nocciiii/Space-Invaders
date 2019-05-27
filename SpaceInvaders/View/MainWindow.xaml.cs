@@ -130,10 +130,6 @@ namespace View
                     Dispatcher.BeginInvoke(new Action(() => playerHealth(alien, imgl)));
                     j++;
                 }
-                if(player.Hitted == true)
-                {
-                    player.Hitted = false;
-                }
                 if (row <= maxRow && rowMovement >= quickMaths.RowDifference && quickMaths.Direction > 0)
                 {
                     Dispatcher.BeginInvoke(new Action(() => createRow()));
@@ -148,10 +144,9 @@ namespace View
             if (alien.Ypos >= player.Ypos - img.Height && alien.Ypos <= player.Ypos - img.Height + quickMaths.RowDown)
             {
                 
-                if (alien.Dead == false && player.Hitted == false)
+                if (alien.Dead == false && player.Hitted == false && kingdomHearts.Count > 0)
                 {
                     player.Hit();
-                    player.Hitted = true;
                     Image imgk = kingdomHearts.Last();
                     playground.Children.Remove(imgk);
                     kingdomHearts.Remove(imgk);
@@ -225,10 +220,6 @@ namespace View
             bool sieg = true;
             isPlayerAlive();
             GameOverScreen gameover = new GameOverScreen(sieg, highscore);
-            /*foreach (Thread t in threads)
-            {
-                t.Abort();
-            }*/
             this.Close();
             gameover.Visibility = Visibility.Visible;
         }
@@ -295,7 +286,6 @@ namespace View
                     {
                         if (alien.Dead == false && shot.Hitted == false)
                         {
-                            shot.Hitted = true;
                             shot.Alive = false;
                             playground.Children.Remove(imgs);
 
@@ -312,14 +302,16 @@ namespace View
                     {
                         if (shot.Alive == true && shot.Hitted == false && kingdomHearts.Count > 0)
                         {
-                            shot.Hitted = true;
-                            player.Hit();
+                            if (player.Hitted == false)
+                            {
+                                player.Hit();
+                                Image imgk = kingdomHearts.Last();
+                                playground.Children.Remove(imgk);
+                                kingdomHearts.Remove(imgk);
+                            }
                             shot.Alive = false;
                             isPlayerAlive();
-                            Image imgk = kingdomHearts.Last();
                             playground.Children.Remove(imgs);
-                            playground.Children.Remove(imgk);
-                            kingdomHearts.Remove(imgk);
                         }
                     }
                 }
