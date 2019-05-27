@@ -42,19 +42,17 @@ namespace View
         private void gameStart()
         {
             //Create Player
-            Double playerY = playground.Height / 100 * 95 - quickMaths.PlayerHeight;
             this.img = new Image();
             img.Height = quickMaths.PlayerHeight;
             img.Width = quickMaths.PlayerWidth;
-            Double left = playground.Width / 2;
-            this.player = new Player(left, playerY);
+            this.player = new Player(quickMaths.getPlayerXpos(this), quickMaths.getPlayerYpos(this));
 
             playground.Children.Add(img);
             img.Source = new BitmapImage(player.Look);
 
 
-            Canvas.SetLeft(img, left);
-            Canvas.SetTop(img, playerY);
+            Canvas.SetLeft(img, quickMaths.getPlayerXpos(this));
+            Canvas.SetTop(img, quickMaths.getPlayerYpos(this));
             img.Visibility = Visibility.Visible;
 
             //Create 3 rows of enemys at the start of game
@@ -95,6 +93,7 @@ namespace View
                 imgk.Source = new BitmapImage(look);
                 imgk.Visibility = Visibility.Visible;
                 playground.Children.Add(imgk);
+                kingdomHearts.Add(imgk);
             }
         }
 
@@ -153,6 +152,9 @@ namespace View
                 {
                     player.Hit();
                     player.Hitted = true;
+                    Image imgk = kingdomHearts.Last();
+                    playground.Children.Remove(imgk);
+                    kingdomHearts.Remove(imgk);
                 }
                 
                 playground.Children.Remove(imgl);
@@ -311,6 +313,10 @@ namespace View
                             shot.Alive = false;
                             isPlayerAlive();
                             playground.Children.Remove(imgs);
+
+                            Image imgk = kingdomHearts.Last();
+                            playground.Children.Remove(imgk);
+                            kingdomHearts.Remove(imgk);
                         }
                     }
                 }
