@@ -63,24 +63,40 @@ namespace View
             Double ypos = main.playground.Height / 100 * 95 - PlayerHeight;
             return ypos;
         }
-        public Double getAlienXpos(MainWindow main)
+        public Double getAlienXpos(MainWindow main, Double shotmiddle, Double alienmiddle, int j,  Boolean firstRows)
         {
-            Double xpos = 0;
+            Double xpos;
+            if (firstRows == true)
+            {
+                xpos = (main.playground.Width - shotmiddle) / 8 * j - alienmiddle;
+            }
+            else
+            {
+                xpos = (main.playground.Width - shotmiddle) / 8 * j - alienmiddle + Direction;
+            }
             return xpos;
         }
-        public Double getAlienYpos(MainWindow main)
+        public Double getAlienYpos(MainWindow main, int row, Boolean firstRows)
         {
-            Double ypos = 0;
+            Double ypos;
+            if (firstRows == true)
+            {
+                ypos = row * RowDifference;
+            }
+            else
+            {
+                ypos = RowDifference;
+            }
             return ypos;
         }
-        public Double getShotXpos(MainWindow main)
+        public Double getShotXpos(MainWindow main, Double pos, Double gunmiddle, Double shotmiddle)
         {
-            Double xpos = 0;
+            Double xpos = pos + gunmiddle / 2 - shotmiddle / 2;
             return xpos;
         }
-        public Double getShotYpos(MainWindow main)
+        public Double getShotYpos(MainWindow main, Double pos, Double gunmiddle)
         {
-            Double ypos = 0;
+            Double ypos = pos - gunmiddle;
             return ypos;
         }
         public Double getHeartXpos(MainWindow main, int row)

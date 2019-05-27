@@ -64,7 +64,7 @@ namespace View
                     Image imga = new Image();
                     imga.Height = quickMaths.AlienHeight;
                     imga.Width = quickMaths.AlienWidth;
-                    Alien a = new Alien((playground.Width - img.Width) / 8 * j - imga.Width, row * quickMaths.RowDifference, row);
+                    Alien a = new Alien(quickMaths.getAlienXpos(this, img.Width, imga.Width, j, true), quickMaths.getAlienYpos(this, row, true), row);
                     imga.Source = new BitmapImage(a.Look);
                     playground.Children.Add(imga);
                     Canvas.SetLeft(imga, a.Xpos);
@@ -174,7 +174,7 @@ namespace View
                 Image imga = new Image();
                 imga.Height = quickMaths.AlienHeight;
                 imga.Width = quickMaths.AlienWidth;
-                Alien a = new Alien((playground.Width - img.Width) / 8 * j - imga.Width + quickMaths.Direction, quickMaths.RowDifference, row);
+                Alien a = new Alien(quickMaths.getAlienXpos(this, img.Width, imga.Width, j, false), quickMaths.getAlienYpos(this, row, false), row);
                 imga.Source = new BitmapImage(a.Look);
                 playground.Children.Add(imga);
                 Canvas.SetLeft(imga, a.Xpos);
@@ -215,17 +215,21 @@ namespace View
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            /*foreach(Thread t in threads)
+            foreach(Thread t in threads)
             {
-                t.Interrupt();
-            }*/
+                t.Abort();
+            }
         }
         private void gameover()
         {
             bool sieg = true;
             isPlayerAlive();
             GameOverScreen gameover = new GameOverScreen(sieg, highscore);
-            this.Visibility = Visibility.Hidden;
+            /*foreach (Thread t in threads)
+            {
+                t.Abort();
+            }*/
+            this.Close();
             gameover.Visibility = Visibility.Visible;
         }
 
@@ -242,7 +246,7 @@ namespace View
             Image imgs = new Image();
             imgs.Height = quickMaths.ShotHeight;
             imgs.Width = quickMaths.ShotWidth;
-            shot = new Shot(posX + imgSender.Width / 2 - imgs.Width / 2, posY - imgSender.Height, direction);
+            shot = new Shot(quickMaths.getShotXpos(this, posX, imgSender.Width, imgs.Width), quickMaths.getShotYpos(this, posY, imgSender.Height), direction);
             imgs.Source = new BitmapImage(shot.Look);
             playground.Children.Add(imgs);
             Canvas.SetLeft(imgs, shot.Xpos);
@@ -306,15 +310,14 @@ namespace View
                         && shot.Ypos <= player.Ypos + img.Height
                         && shot.Ypos + imgs.Height >= player.Ypos)
                     {
-                        if (shot.Alive == true && shot.Hitted == false)
+                        if (shot.Alive == true && shot.Hitted == false && kingdomHearts.Count > 0)
                         {
                             shot.Hitted = true;
                             player.Hit();
                             shot.Alive = false;
                             isPlayerAlive();
-                            playground.Children.Remove(imgs);
-
                             Image imgk = kingdomHearts.Last();
+                            playground.Children.Remove(imgs);
                             playground.Children.Remove(imgk);
                             kingdomHearts.Remove(imgk);
                         }
