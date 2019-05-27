@@ -12,6 +12,7 @@ namespace Model
         private Double ypos;
         private Boolean isPlayer;
         private Boolean alive = true;
+        private Boolean hitted = false;
         private Uri look = new Uri("shot.jpg", UriKind.Relative);
 
         public Shot(Double xpos, Double ypos, Boolean isPlayer)
@@ -36,5 +37,6 @@ namespace Model
         public bool IsPlayer { get => isPlayer; set => isPlayer = value; }
         public Uri Look { get => look; set => look = value; }
         public bool Alive { get => alive; set => alive = value; }
+        public bool Hitted { get => hitted; set => hitted = value; }
     }
 }
