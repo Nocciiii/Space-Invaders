@@ -387,8 +387,9 @@ namespace View
         {
             while (a.Dead == false)
             {
+                Thread.Sleep(500);
                 Dispatcher.BeginInvoke(new Action(() => createShot(a.Xpos, a.Ypos, false, imga)));
-                Thread.Sleep(7000);
+                Thread.Sleep(6500);
             }
         }
 

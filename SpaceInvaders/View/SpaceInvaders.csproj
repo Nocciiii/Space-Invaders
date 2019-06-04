@@ -128,5 +128,8 @@
   <ItemGroup>
     <Resource Include="KingdomHearts.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="barrier.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -24,6 +25,15 @@ namespace Model
         public void Hit()
         {
             life = life - 1;
+            Hitted = true;
+            Thread t = new Thread(() => playerGotHitted());
+            t.Start();
+        }
+
+        private void playerGotHitted()
+        {
+            Thread.Sleep(100);
+            Hitted = false;
         }
 
         public int Life { get => life; set => life = life-1; }
