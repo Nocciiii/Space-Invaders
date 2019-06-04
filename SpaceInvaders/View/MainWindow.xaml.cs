@@ -26,6 +26,8 @@ namespace View
         private List<Alien> alienObject = new List<Alien>();
         private List<Thread> threads = new List<Thread>();
         private List<Image> kingdomHearts = new List<Image>();
+        private List<Model.Barrier> barriers = new List<Model.Barrier>();
+        private List<Image> barrierImage = new List<Image>();
         private int row = 1;
         private int maxRow = 10;
         private int highscore = 0;
@@ -95,6 +97,23 @@ namespace View
                 playground.Children.Add(imgk);
                 kingdomHearts.Add(imgk);
             }
+
+            for(int i = 0; i < 3; i++)
+            {
+                Model.Barrier barrier = new Model.Barrier();
+                Image imgb = new Image();
+                imgb.Height = quickMaths.BarrierHeight;
+                imgb.Width = quickMaths.BarrierWidth;
+                barrier.Xpos = quickMaths.getBarrierXpos(this, i);
+                barrier.Ypos = quickMaths.getBarrierYpos(this, player);
+                Canvas.SetLeft(imgb, barrier.Xpos);
+                Canvas.SetTop(imgb, barrier.Ypos);
+                imgb.Source = new BitmapImage(barrier.Look);
+                imgb.Visibility = Visibility.Visible;
+                playground.Children.Add(imgb);
+                barrierImage.Add(imgb);
+                barriers.Add(barrier);
+            }
         }
 
         private void alienMove(MainWindow main)
@@ -127,7 +146,7 @@ namespace View
                     Alien alien = alienObject.ElementAt(j);
                     alien.Ypos = alien.Ypos + quickMaths.RowDown;
                     Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
-                    Dispatcher.BeginInvoke(new Action(() => playerHealth(alien, imgl)));
+                    Dispatcher.BeginInvoke(new Action(() => alienCollision(alien, imgl)));
                     j++;
                 }
                 if (row <= maxRow && rowMovement >= quickMaths.RowDifference && quickMaths.Direction > 0)
@@ -139,11 +158,27 @@ namespace View
             }
         }
 
-        private void playerHealth(Alien alien, Image imgl)
+        private void alienCollision(Alien alien, Image imgl)
         {
-            if (alien.Ypos >= player.Ypos - img.Height && alien.Ypos <= player.Ypos - img.Height + quickMaths.RowDown)
+            foreach(Model.Barrier barrier in barriers)
             {
-                
+                if(alien.Ypos + quickMaths.AlienHeight >= barrier.Ypos && alien.Ypos <= barrier.Ypos + quickMaths.BarrierHeight 
+                    && alien.Dead == false && barrier.Dead == false)
+                {
+                    if(barrier.Hitted == false && alien.Dead == false && barrier.Dead == false)
+                    {
+                        foreach (Model.Barrier barrierhit in barriers)
+                        {
+                            barrierhit.hit();
+                        }
+                    }
+                    isBarrierDead(barrier);
+                    alien.Dead = true;
+                    playground.Children.Remove(imgl);
+                }
+            }
+            if (alien.Ypos >= player.Ypos - img.Height && alien.Ypos <= player.Ypos + quickMaths.RowDown)
+            { 
                 if (alien.Dead == false && player.Hitted == false && kingdomHearts.Count > 0)
                 {
                     player.Hit();
@@ -151,16 +186,14 @@ namespace View
                     playground.Children.Remove(imgk);
                     kingdomHearts.Remove(imgk);
                 }
-                
+
+                alien.Dead = true;
                 playground.Children.Remove(imgl);
-                if (player.Life <= 0 && end == false)
-                {
-                    end = true;
-                    playground.Children.Remove(img);
-                    gameover();
-                }
+                isPlayerAlive();
             }
         }
+
+        
 
         private void createRow()
         {
@@ -274,13 +307,20 @@ namespace View
                 shot.Alive = false;
                 playground.Children.Remove(imgs);   
             }
+            
+            shotCollision(shot, imgs);
+        }
+
+        private void shotCollision(Shot shot, Image imgs)
+        {
             int i = 0;
             foreach (Alien alien in alienObject)
             {
+                
                 Image imga = aliens.ElementAt(i);
                 if (shot.IsPlayer == true)
                 {
-                    if (shot.Xpos + imgs.Width >= alien.Xpos && shot.Xpos <= alien.Xpos + imga.Width 
+                    if (shot.Xpos + imgs.Width >= alien.Xpos && shot.Xpos <= alien.Xpos + imga.Width
                         && shot.Ypos <= alien.Ypos + imga.Height
                         && shot.Ypos + imgs.Height >= alien.Ypos)
                     {
@@ -296,6 +336,24 @@ namespace View
                 }
                 else
                 {
+                    foreach (Model.Barrier barrier in barriers)
+                    {
+                        if (shot.Ypos + imgs.ActualHeight >= barrier.Ypos && shot.Ypos <= barrier.Ypos + quickMaths.BarrierHeight
+                            && shot.Xpos + quickMaths.ShotWidth >= barrier.Xpos && shot.Xpos <= barrier.Xpos + quickMaths.BarrierWidth)
+                        {
+                            if (barrier.Hitted == false && shot.Alive == true && barrier.Dead == false)
+                            {
+                                foreach (Model.Barrier barrierhit in barriers)
+                                {
+                                    barrierhit.hit();
+                                    
+                                }
+                            }
+                            isBarrierDead(barrier);
+                            shot.Alive = false;
+                            playground.Children.Remove(imgs);
+                        }
+                    }
                     if (shot.Xpos + imgs.Width >= player.Xpos && shot.Xpos <= player.Xpos + img.Width
                         && shot.Ypos <= player.Ypos + img.Height
                         && shot.Ypos + imgs.Height >= player.Ypos)
@@ -341,6 +399,15 @@ namespace View
                 end = true;
                 playground.Children.Remove(img);
                 gameover();
+            }
+        }
+
+        private void isBarrierDead(Model.Barrier barrier)
+        {
+            if(barrier.Life <= 0)
+            {
+                barrier.Dead = true;
+                playground.Children.Remove(barrierImage.ElementAt(barrier.Id));
             }
         }
     }

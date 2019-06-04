@@ -27,8 +27,8 @@ namespace Model
             this.id = currentId;
             currentId++;
             Random random = new Random();
-            level = random.Next(50);
-            if (level <= 30)
+            level = random.Next(10);
+            if (level >= 7)
             {
                 level = 2;
                 look = new Uri("Alien2.jpg", UriKind.Relative);
