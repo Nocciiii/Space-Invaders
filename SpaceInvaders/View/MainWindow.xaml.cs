@@ -44,25 +44,43 @@ namespace View
         private void gameStart()
         {
             //Create Player
+            Thread t = new Thread(() => createPlayer());
+            t.Start();
+            threads.Add(t);
+
+            //Create 3 rows of enemys at the start of game
+            t = new Thread(() => createFirstEnemys());
+            t.Start();
+
+            //Create  Player Hearts
+            t = new Thread(() => createHearts());
+            t.Start();
+
+            //Create Barriers
+            t = new Thread(() => createBarriers());
+            t.Start();
+        }
+
+        private void createPlayer()
+        {
             this.img = new Image();
             img.Height = quickMaths.PlayerHeight;
             img.Width = quickMaths.PlayerWidth;
             this.player = new Player(quickMaths.getPlayerXpos(this), quickMaths.getPlayerYpos(this));
-
             playground.Children.Add(img);
             img.Source = new BitmapImage(player.Look);
-
-
             Canvas.SetLeft(img, quickMaths.getPlayerXpos(this));
             Canvas.SetTop(img, quickMaths.getPlayerYpos(this));
             img.Visibility = Visibility.Visible;
+        }
 
-            //Create 3 rows of enemys at the start of game
+        private void createFirstEnemys()
+        {
             while (row <= 3)
             {
                 for (int j = 8; j >= 1; j--)
                 {
-                    
+
                     Image imga = new Image();
                     imga.Height = quickMaths.AlienHeight;
                     imga.Width = quickMaths.AlienWidth;
@@ -83,8 +101,11 @@ namespace View
                 }
                 row++;
             }
-            
-            for(int i = 0; i < 3; i++)
+        }
+
+        private void createHearts()
+        {
+            for (int i = 0; i < 3; i++)
             {
                 Image imgk = new Image();
                 imgk.Height = quickMaths.HeartHeight;
@@ -97,8 +118,11 @@ namespace View
                 playground.Children.Add(imgk);
                 kingdomHearts.Add(imgk);
             }
+        }
 
-            for(int i = 0; i < 3; i++)
+        private void createBarriers()
+        {
+            for (int i = 0; i < 3; i++)
             {
                 Model.Barrier barrier = new Model.Barrier();
                 Image imgb = new Image();
