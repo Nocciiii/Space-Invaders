@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace View
 {
@@ -22,34 +27,50 @@ namespace View
     public partial class HighscoreList : Window
     {
         private List<Highscore>  listHighscores= new List<Highscore>();
+        Socket sender;
+        byte[] bytes = new byte[1024];
         public HighscoreList()
         {
             InitializeComponent();
-            readDB();
+            ConnectToServer();
             Highscores.DataContext = listHighscores;
+
         }
 
 
-        private void readDB()
+        public void ConnectToServer()
         {
-            OleDbConnection con = new OleDbConnection(Properties.Settings.Default.DbCon);
-            con.Open();
-            OleDbCommand com = con.CreateCommand();
-            com.CommandType = CommandType.Text;
-            com.CommandText = ("Select * From Highscores");
-            OleDbDataReader reader = com.ExecuteReader();
-            while(reader.Read()==true)
+            IPHostEntry host = Dns.GetHostEntry("localhost");
+            IPAddress ipAddress = host.AddressList[0];
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8008);
+ 
+            sender = new Socket(ipAddress.AddressFamily,
+            SocketType.Stream, ProtocolType.Tcp);
+            try
             {
-                Highscore h = new Highscore();
-                h.Initials = reader["initials"].ToString();
-                h.Points = Convert.ToInt32(reader["points"].ToString());
-                listHighscores.Add(h);
+                sender.Connect(remoteEP);
+                Thread t = new Thread(() => readDB());
+                t.Start();
             }
+            catch(Exception e)
+            {
 
+            }
+        }
+        public void readDB()
+        {
+            XmlSerializer ser = new XmlSerializer(typeof(Highscore));
+            while (true)
+            {
+                int  bytesRec = sender.Receive(bytes);
+                String obj=Encoding.ASCII.GetString(bytes, 0, bytesRec);
+                using (StringReader textreader = new StringReader(obj))
+                {
+                    Highscore h = (Highscore)ser.Deserialize(textreader);
+                    listHighscores.Add(h);
 
-           listHighscores.OrderBy(x => x.Points);
-
-            con.Close();
+                }
+            }
         }
     }
 }
