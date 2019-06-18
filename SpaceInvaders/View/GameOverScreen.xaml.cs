@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace View
 {
@@ -48,18 +52,44 @@ namespace View
             ToHighscorelist();
         }
 
-        private void WriteHighscore(String initialen, int points)
+        private void WriteHighscore(String initials, int points)
         {
-            OleDbConnection con = new OleDbConnection(Properties.Settings.Default.DbCon);
-            con.Open();
-            OleDbCommand com = con.CreateCommand();
-            com.CommandType = CommandType.Text;
-            com.CommandText = ("INSERT INTO Highscores(Initials,Points)" + "VALUES (?,?)");
-            com.Parameters.AddWithValue(initialen, points);
-            com.ExecuteNonQuery();
-
-            con.Close();
+            Highscore newHighscore = new Highscore();
+            newHighscore.Points = points;
+            newHighscore.Initials = initials;
+            SendHighscore(newHighscore);
             ToHighscorelist();
+        }
+        private void SendHighscore(Highscore newHighscore)
+        {
+            IPHostEntry host = Dns.GetHostEntry("localhost");
+            IPAddress ipAddress = host.AddressList[0];
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8008);
+
+            Socket sender = new Socket(ipAddress.AddressFamily,
+            SocketType.Stream, ProtocolType.Tcp);
+            try
+            {
+                sender.Connect(remoteEP);
+            }
+            catch (Exception e)
+            {
+
+            }
+            byte[] msg = null;
+            //msg for protocoll
+            msg = Encoding.ASCII.GetBytes("2");
+            sender.Send(msg);
+            //actual message
+            XmlSerializer ser = new XmlSerializer(typeof(Highscore));
+            using (StringWriter textWriter = new StringWriter())
+            {
+                ser.Serialize(textWriter, newHighscore);
+                String obj = textWriter.ToString();
+                msg = Encoding.ASCII.GetBytes(obj);
+                sender.Send(msg);
+
+           }
         }
         private void ToHighscorelist()
         {

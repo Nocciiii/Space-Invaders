@@ -17,6 +17,7 @@ namespace HighscoreServer
     {
         private List<Highscore> highscores = new List<Highscore>();
         private int port = 8008;
+        byte[] bytes = new byte[1024];
 
         static void Main(string[] args)
         {
@@ -38,7 +39,7 @@ namespace HighscoreServer
                 listener.Bind(localEndPoint);
                 listener.Listen(1);
                 Socket handler=listener.Accept();
-                Thread t = new Thread(() => send(handler));
+                Thread t = new Thread(() => HandleRequestFromClient(handler));
                 t.Start();
             }
         }
@@ -62,7 +63,7 @@ namespace HighscoreServer
 
             con.Close();
         }
-        private void send(Socket handler)
+        private void Send(Socket handler)
         {
             readDB();
             byte[] msg = null;
@@ -78,6 +79,43 @@ namespace HighscoreServer
 
                 }
             }
+        }
+        public void HandleRequestFromClient(Socket handler)
+        {
+            int bytestream=handler.Receive(bytes);
+            String decoded = Encoding.ASCII.GetString(bytes, 0, bytestream);
+            int task = Convert.ToInt32(decoded);
+            if(task==1)
+            {
+                Send(handler);
+            }
+            else
+            {
+                ReceiveData(handler);
+            }
+        }
+        public void ReceiveData(Socket handler)
+        {
+            XmlSerializer ser = new XmlSerializer(typeof(Highscore));
+            int bytesRec = handler.Receive(bytes);
+            String obj = Encoding.ASCII.GetString(bytes, 0, bytesRec);
+            using (StringReader textreader = new StringReader(obj))
+            {
+               Highscore h = (Highscore)ser.Deserialize(textreader);
+               WriteHighscore(h);
+            }
+        }
+        private void WriteHighscore(Highscore h)
+        {
+            OleDbConnection con = new OleDbConnection(Properties.Settings.Default.DbCon);
+            con.Open();
+            OleDbCommand com = con.CreateCommand();
+            com.CommandType = CommandType.Text;
+            com.CommandText = ("INSERT INTO Highscores(Initials,Points)" + "VALUES (?,?)");
+            com.Parameters.AddWithValue(h.Initials, h.Points);
+            com.ExecuteNonQuery();
+
+            con.Close();
         }
     }
 }

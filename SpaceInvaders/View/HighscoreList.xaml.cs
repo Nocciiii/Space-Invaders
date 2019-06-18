@@ -51,6 +51,8 @@ namespace View
                 sender.Connect(remoteEP);
                 Thread t = new Thread(() => readDB());
                 t.Start();
+                System.Threading.Thread.Sleep(100);
+                listHighscores.Sort((x,y) => x.Points.CompareTo(y.Points));
             }
             catch(Exception e)
             {
@@ -59,6 +61,10 @@ namespace View
         }
         public void readDB()
         {
+            byte[] msg = null;
+            //msg for protocoll
+            msg = Encoding.ASCII.GetBytes("1");
+            sender.Send(msg);
             XmlSerializer ser = new XmlSerializer(typeof(Highscore));
             while (true)
             {
@@ -68,7 +74,6 @@ namespace View
                 {
                     Highscore h = (Highscore)ser.Deserialize(textreader);
                     listHighscores.Add(h);
-
                 }
             }
         }
