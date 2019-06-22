@@ -96,6 +96,7 @@ namespace View
             HighscoreList highscorelist = new HighscoreList();
             this.Visibility = Visibility.Hidden;
             highscorelist.Visibility = Visibility.Visible;
+            this.Close();
         }
     }
 }

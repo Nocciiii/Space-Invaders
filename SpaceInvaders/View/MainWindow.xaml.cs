@@ -31,6 +31,7 @@ namespace View
         private int row = 1;
         private int maxRow = 10;
         private int highscore = 0;
+        private bool sieg = true;
         private Boolean end = false;
         private QuickMaths quickMaths;
 
@@ -149,12 +150,19 @@ namespace View
                 for (int i = 0; i < 5; i++)
                 {
                     j = 0;
-                    foreach (Image imgl in aliens)
+                    if (aliens.Count != 0)
                     {
-                        Alien alien = alienObject.ElementAt(j);
-                        alien.Xpos = alien.Xpos + quickMaths.Direction;
-                        Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
-                        j++;
+                        foreach (Image imgl in aliens)
+                        {
+                            Alien alien = alienObject.ElementAt(j);
+                            alien.Xpos = alien.Xpos + quickMaths.Direction;
+                            Dispatcher.BeginInvoke(new Action(() => changeAlienPos(alien)));
+                            j++;
+                        }
+                    }
+                    else
+                    {
+                        gameover();
                     }
                     Thread.Sleep(50);
                 }
@@ -209,7 +217,7 @@ namespace View
                     playground.Children.Remove(imgk);
                     kingdomHearts.Remove(imgk);
                 }
-
+                highscore += alien.Points;
                 alien.Dead = true;
                 playground.Children.Remove(imgl);
                 isPlayerAlive();
@@ -277,7 +285,6 @@ namespace View
         }
         private void gameover()
         {
-            bool sieg = true;
             isPlayerAlive();
             GameOverScreen gameover = new GameOverScreen(sieg, highscore);
             this.Close();
@@ -426,6 +433,7 @@ namespace View
             if (player.Life <= 0 && end == false)
             {
                 end = true;
+                sieg = false;
                 playground.Children.Remove(img);
                 gameover();
             }

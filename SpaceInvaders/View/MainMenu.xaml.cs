@@ -30,6 +30,7 @@ namespace View
             MainWindow game = new MainWindow();
             this.Visibility=Visibility.Hidden;
             game.Visibility = Visibility.Visible;
+            this.Close();
         }
 
         private void HighscoreButton_Click(object sender, RoutedEventArgs e)
@@ -37,6 +38,7 @@ namespace View
             HighscoreList highscores = new HighscoreList();
             this.Visibility = Visibility.Hidden;
             highscores.Visibility = Visibility.Visible;
+            this.Close();
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)

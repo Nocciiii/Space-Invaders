@@ -63,6 +63,9 @@
     <Compile Include="HighscoreList.xaml.cs">
       <DependentUpon>HighscoreList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="QuickMaths.cs" />
     <Compile Include="Shot.cs" />
     <Compile Include="Player.cs" />
@@ -71,6 +74,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="HighscoreList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

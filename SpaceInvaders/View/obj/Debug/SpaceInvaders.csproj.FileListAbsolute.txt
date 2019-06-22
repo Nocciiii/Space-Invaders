@@ -91,3 +91,14 @@ C:\Users\Jamie\Desktop\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainWi
 C:\Users\Jamie\Desktop\Space-Invaders-master\SpaceInvaders\View\obj\Debug\App.g.cs
 C:\Users\Jamie\Desktop\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View_MarkupCompile.cache
 C:\Users\Jamie\Desktop\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View_MarkupCompile.lref
+C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\bin\Debug\View.exe.config
+C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.exe
+C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View.pdb
+C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\SpaceInvaders.csprojResolveAssemblyReference.cache
+C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\GameOverScreen.g.cs
+C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\HighscoreList.g.cs
+C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainWindow.g.cs
+C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\App.g.cs
+C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View_MarkupCompile.cache
+C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View_MarkupCompile.lref
+C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainMenu.g.cs

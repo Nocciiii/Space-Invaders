@@ -18,6 +18,7 @@ namespace Model
         private Double ypos;
         private Boolean dead = false;
         private int level;
+        private int points;
         public event PropertyChangedEventHandler PropertyChanged;
         public Alien(Double xpos, Double ypos, int currentRow)
         {
@@ -32,11 +33,13 @@ namespace Model
             {
                 level = 2;
                 look = new Uri("Alien2.jpg", UriKind.Relative);
+                Points = 200;
             }
             else
             {
                 level = 1;
                 look = new Uri("Alien1.png", UriKind.Relative);
+                Points = 100;
             }
         }
 
@@ -56,5 +59,6 @@ namespace Model
         public int CurrentRow { get => currentRow; set => currentRow = value; }
         public bool Dead { get => dead; set => dead = value; }
         public int Level { get => level; set => level = value; }
+        public int Points { get => points; set => points = value; }
     }
 }
