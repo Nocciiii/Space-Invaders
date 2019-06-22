@@ -44,25 +44,6 @@ namespace View
         private void gameStart()
         {
             //Create Player
-            Thread t = new Thread(() => createPlayer());
-            t.Start();
-            threads.Add(t);
-
-            //Create 3 rows of enemys at the start of game
-            t = new Thread(() => createFirstEnemys());
-            t.Start();
-
-            //Create  Player Hearts
-            t = new Thread(() => createHearts());
-            t.Start();
-
-            //Create Barriers
-            t = new Thread(() => createBarriers());
-            t.Start();
-        }
-
-        private void createPlayer()
-        {
             this.img = new Image();
             img.Height = quickMaths.PlayerHeight;
             img.Width = quickMaths.PlayerWidth;
@@ -72,6 +53,24 @@ namespace View
             Canvas.SetLeft(img, quickMaths.getPlayerXpos(this));
             Canvas.SetTop(img, quickMaths.getPlayerYpos(this));
             img.Visibility = Visibility.Visible;
+
+            //Create 3 rows of enemys at the start of game
+            Thread t = new Thread(() => Dispatcher.BeginInvoke(new Action(() => createFirstEnemys())));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+            threads.Add(t);
+
+            //Create  Player Hearts
+            t = new Thread(() => Dispatcher.BeginInvoke(new Action(() => createHearts())));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+            threads.Add(t);
+
+            //Create Barriers
+            t = new Thread(() => Dispatcher.BeginInvoke(new Action(() => createBarriers())));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+            threads.Add(t);
         }
 
         private void createFirstEnemys()
@@ -263,6 +262,10 @@ namespace View
             Thread t = new Thread(() => alienMove(this));
             t.Start();
             threads.Add(t);
+
+            t = new Thread(() => Dispatcher.BeginInvoke(new Action(() => isEnemyAlive())));
+            t.Start();
+            threads.Add(t);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -352,6 +355,7 @@ namespace View
                         {
                             shot.Alive = false;
                             playground.Children.Remove(imgs);
+                            alien.Dead = true;
 
                             playground.Children.Remove(imga);
                             alien.Dead = true;
@@ -433,6 +437,26 @@ namespace View
             {
                 barrier.Dead = true;
                 playground.Children.Remove(barrierImage.ElementAt(barrier.Id));
+            }
+        }
+
+        private void isEnemyAlive()
+        {
+            int amountDeadEnemys = 0;
+            int allEnemys = alienObject.Count();
+
+            foreach(Alien a in alienObject)
+            {
+                if(a.Dead == true)
+                {
+                    amountDeadEnemys += 1;
+                }
+                if(amountDeadEnemys == allEnemys && end == false)
+                {
+                    end = true;
+                    playground.Children.Remove(img);
+                    gameover();
+                }
             }
         }
     }
