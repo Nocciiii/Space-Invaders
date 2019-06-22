@@ -32,7 +32,7 @@ namespace HighscoreServer
             IPHostEntry host = Dns.GetHostEntry("localhost");
             IPAddress ipAddress = host.AddressList[0];
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
-
+            Console.Write("Server gestartet");
             while (true)
             {
                 Socket listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
@@ -46,7 +46,7 @@ namespace HighscoreServer
 
         private void readDB()
         {
-            OleDbConnection con = new OleDbConnection(Properties.Settings.Default.DbCon);
+            OleDbConnection con = new OleDbConnection(Settings.Default.DbCon);
             con.Open();
             OleDbCommand com = con.CreateCommand();
             com.CommandType = CommandType.Text;
@@ -107,7 +107,7 @@ namespace HighscoreServer
         }
         private void WriteHighscore(Highscore h)
         {
-            OleDbConnection con = new OleDbConnection(Properties.Settings.Default.DbCon);
+            OleDbConnection con = new OleDbConnection(Settings.Default.DbCon);
             con.Open();
             OleDbCommand com = con.CreateCommand();
             com.CommandType = CommandType.Text;

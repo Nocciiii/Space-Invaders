@@ -1,2 +1,6 @@
 C:\Users\Jamie\Desktop\Space-Invaders-master\SpaceInvaders\HighscoreServer\bin\Debug\HighscoreServer.exe.config
 C:\Users\Jamie\Desktop\Space-Invaders-master\SpaceInvaders\HighscoreServer\obj\Debug\HighscoreServer.csprojResolveAssemblyReference.cache
+C:\Users\Jamie\Desktop\Space-Invaders-master\SpaceInvaders\HighscoreServer\bin\Debug\HighscoreServer.exe
+C:\Users\Jamie\Desktop\Space-Invaders-master\SpaceInvaders\HighscoreServer\bin\Debug\HighscoreServer.pdb
+C:\Users\Jamie\Desktop\Space-Invaders-master\SpaceInvaders\HighscoreServer\obj\Debug\HighscoreServer.exe
+C:\Users\Jamie\Desktop\Space-Invaders-master\SpaceInvaders\HighscoreServer\obj\Debug\HighscoreServer.pdb
