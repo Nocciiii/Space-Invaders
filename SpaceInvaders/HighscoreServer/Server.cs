@@ -55,8 +55,8 @@ namespace HighscoreServer
             while (reader.Read() == true)
             {
                 Highscore h = new Highscore();
-                h.Initials = reader["initials"].ToString();
-                h.Points = Convert.ToInt32(reader["points"].ToString());
+                h.Initials = reader["Initials"].ToString();
+                h.Points = Convert.ToInt32(reader["Points"].ToString());
                 highscores.Add(h);
             }
             highscores.OrderBy(x => x.Points);
