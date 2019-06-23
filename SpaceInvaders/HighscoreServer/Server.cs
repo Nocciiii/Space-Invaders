@@ -67,7 +67,8 @@ namespace HighscoreServer
         {
             readDB();
             byte[] msg = null;
-            XmlSerializer ser = new XmlSerializer(typeof(Highscore));
+            Highscore type = new Highscore();
+            XmlSerializer ser = new XmlSerializer(type.GetType());
             foreach (Highscore h in highscores)
             {
                 using (StringWriter textWriter = new StringWriter())
