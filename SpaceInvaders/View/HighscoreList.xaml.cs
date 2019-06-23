@@ -65,7 +65,8 @@ namespace View
             //msg for protocoll
             msg = Encoding.ASCII.GetBytes("1");
             sender.Send(msg);
-            XmlSerializer ser = new XmlSerializer(typeof(Highscore));
+            Highscore type = new Highscore();
+            XmlSerializer ser = new XmlSerializer(type.GetType());
             while (true)
             {
                 int  bytesRec = sender.Receive(bytes);

@@ -81,7 +81,8 @@ namespace View
             msg = Encoding.ASCII.GetBytes("2");
             sender.Send(msg);
             //actual message
-            XmlSerializer ser = new XmlSerializer(typeof(Highscore));
+            Highscore type = new Highscore();
+            XmlSerializer ser = new XmlSerializer(type.GetType());
             using (StringWriter textWriter = new StringWriter())
             {
                 ser.Serialize(textWriter, newHighscore);
