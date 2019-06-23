@@ -144,8 +144,9 @@ namespace View
         {
             int j = 0;
             Double rowMovement = 0;
+            Boolean allDead = false;
 
-            while (player.Life != 0 || aliens != null)
+            while (player.Life != 0 || allDead == false)
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -205,6 +206,7 @@ namespace View
                     }
                     isBarrierDead(barrier);
                     alien.Dead = true;
+                    isEnemyAlive();
                     playground.Children.Remove(imgl);
                 }
             }
@@ -219,6 +221,7 @@ namespace View
                 }
                 highscore += alien.Points;
                 alien.Dead = true;
+                isEnemyAlive();
                 playground.Children.Remove(imgl);
                 isPlayerAlive();
             }
@@ -363,9 +366,9 @@ namespace View
                             shot.Alive = false;
                             playground.Children.Remove(imgs);
                             alien.Dead = true;
-
+                            isEnemyAlive();
                             playground.Children.Remove(imga);
-                            alien.Dead = true;
+                            shot.Alive = false;
                         }
                     }
                 }
