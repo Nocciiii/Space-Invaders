@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HighscoreServer
 {
-    class Highscore
+    public class Highscore
     {
         private int points;
         private String initials;
