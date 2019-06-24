@@ -11,3 +11,10 @@ C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders
 C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\HighscoreServer\obj\Debug\HighscoreServer.csprojResolveAssemblyReference.cache
 C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\HighscoreServer\obj\Debug\HighscoreServer.exe
 C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\HighscoreServer\obj\Debug\HighscoreServer.pdb
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\HighscoreServer\bin\Debug\Highscores.accdb
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\HighscoreServer\bin\Debug\HighscoreServer.exe.config
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\HighscoreServer\bin\Debug\HighscoreServer.exe
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\HighscoreServer\bin\Debug\HighscoreServer.pdb
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\HighscoreServer\obj\Debug\HighscoreServer.csprojResolveAssemblyReference.cache
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\HighscoreServer\obj\Debug\HighscoreServer.exe
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\HighscoreServer\obj\Debug\HighscoreServer.pdb

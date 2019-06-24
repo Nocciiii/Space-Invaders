@@ -29,7 +29,7 @@ namespace HighscoreServer
         }
         public void Running()
         {
-            IPHostEntry host = Dns.GetHostEntry("localhost");
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress = host.AddressList[0];
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
             Console.Write("Server gestartet");
@@ -37,7 +37,7 @@ namespace HighscoreServer
             {
                 Socket listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 listener.Bind(localEndPoint);
-                listener.Listen(1);
+                listener.Listen(100);
                 Socket handler=listener.Accept();
                 Thread t = new Thread(() => HandleRequestFromClient(handler));
                 t.Start();
@@ -67,18 +67,11 @@ namespace HighscoreServer
         {
             readDB();
             byte[] msg = null;
-            Highscore type = new Highscore();
-            XmlSerializer ser = new XmlSerializer(type.GetType());
             foreach (Highscore h in highscores)
             {
-                using (StringWriter textWriter = new StringWriter())
-                {
-                    ser.Serialize(textWriter, h);
-                    String obj = textWriter.ToString();
+                    String obj = h.ToString();
                     msg = Encoding.ASCII.GetBytes(obj);
                     handler.Send(msg);
-
-                }
             }
         }
         public void HandleRequestFromClient(Socket handler)
@@ -97,17 +90,19 @@ namespace HighscoreServer
         }
         public void ReceiveData(Socket handler)
         {
-            XmlSerializer ser = new XmlSerializer(typeof(Highscore));
             int bytesRec = handler.Receive(bytes);
             String obj = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-            using (StringReader textreader = new StringReader(obj))
-            {
-               Highscore h = (Highscore)ser.Deserialize(textreader);
-               WriteHighscore(h);
-            }
+            Object h = (Object)obj;
+            WriteHighscore(h);
         }
-        private void WriteHighscore(Highscore h)
+        private void WriteHighscore(Object o)
         {
+            String sendHighscore = (String)o;
+            String[]splitHighscore=sendHighscore.Split('~');
+            Highscore h = new Highscore();
+            h.Points = Convert.ToInt32(splitHighscore[0]);
+            h.Initials = splitHighscore[1];
+
             OleDbConnection con = new OleDbConnection(Settings.Default.DbCon);
             con.Open();
             OleDbCommand com = con.CreateCommand();
