@@ -44,7 +44,7 @@
             </TextBox>
             <TextBlock Name="GameOverMessage" Height="36" Canvas.Left="64" TextWrapping="Wrap" Text=" " Canvas.Top="26" Width="213" Foreground="#FF002CF3"/>
             <TextBlock Height="27" Canvas.Left="95" TextWrapping="Wrap" Canvas.Top="67" Width="153" Foreground="#FF0068FF"><Run Text="    "/><Run Text="Ihr Highscore beträgt:"/></TextBlock>
-            <TextBlock Name="Points" Height="19" Canvas.Left="104" TextWrapping="Wrap" Text=" " Canvas.Top="107" Width="131" Foreground="#FF300FFF"/>
+            <TextBlock Name="Points" Height="19" Canvas.Left="104" TextWrapping="Wrap" Text=" " Canvas.Top="107" Width="131" Foreground="#FF0023FF"/>
         </Canvas>
 
     </Grid>

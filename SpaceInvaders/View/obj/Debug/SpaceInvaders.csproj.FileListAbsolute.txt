@@ -102,3 +102,5 @@ C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders
 C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View_MarkupCompile.cache
 C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\View_MarkupCompile.lref
 C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainMenu.g.cs
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainMenu.g.cs
+C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainMenu.baml

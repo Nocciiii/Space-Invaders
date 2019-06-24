@@ -81,16 +81,9 @@ namespace View
             msg = Encoding.ASCII.GetBytes("2");
             sender.Send(msg);
             //actual message
-            Highscore type = new Highscore();
-            XmlSerializer ser = new XmlSerializer(type.GetType());
-            using (StringWriter textWriter = new StringWriter())
-            {
-                ser.Serialize(textWriter, newHighscore);
-                String obj = textWriter.ToString();
+                String obj = newHighscore.ToString();
                 msg = Encoding.ASCII.GetBytes(obj);
                 sender.Send(msg);
-
-           }
         }
         private void ToHighscorelist()
         {

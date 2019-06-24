@@ -65,17 +65,15 @@ namespace View
             //msg for protocoll
             msg = Encoding.ASCII.GetBytes("1");
             sender.Send(msg);
-            Highscore type = new Highscore();
-            XmlSerializer ser = new XmlSerializer(type.GetType());
             while (true)
             {
                 int  bytesRec = sender.Receive(bytes);
                 String obj=Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                using (StringReader textreader = new StringReader(obj))
-                {
-                    Highscore h = (Highscore)ser.Deserialize(textreader);
-                    listHighscores.Add(h);
-                }
+                String[] splitHighscore = obj.Split('~');
+                Highscore h = new Highscore();
+                h.Points = Convert.ToInt32(splitHighscore[0]);
+                h.Initials = splitHighscore[1];
+                listHighscores.Add(h);
             }
         }
     }
