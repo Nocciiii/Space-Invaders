@@ -65,11 +65,12 @@ namespace View
             //msg for protocoll
             msg = Encoding.ASCII.GetBytes("1");
             sender.BeginSend(msg, 0, msg.Length, 0, new AsyncCallback(SendCallback), sender);
+            Thread.Sleep(100);
             while (true)
             {
                 int  bytesRec = sender.Receive(bytes);
                 String obj=Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                String[] splitHighscore = obj.Split('~');
+                String[] splitHighscore = obj.Split(';');
                 Highscore h = new Highscore();
                 h.Points = Convert.ToInt32(splitHighscore[0]);
                 h.Initials = splitHighscore[1];

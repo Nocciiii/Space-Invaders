@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,7 +45,9 @@ namespace View
 
         private void HighscoreSave_Click(object sender, RoutedEventArgs e)
         {
-            WriteHighscore(Initials.Text, highscore);
+            Thread t = new Thread(() => Dispatcher.BeginInvoke(new Action(() => WriteHighscore(Initials.Text, highscore))));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
         }
 
         private void HighscoreDrop_Click(object sender, RoutedEventArgs e)
@@ -80,10 +83,12 @@ namespace View
             //msg for protocoll
             msg = Encoding.ASCII.GetBytes("2");
             sender.BeginSend(msg, 0, msg.Length, 0, new AsyncCallback(SendCallback), sender);
+            Thread.Sleep(100);
             //actual message
-            String obj = newHighscore.Points + '~' + newHighscore.Initials;
+            String obj = newHighscore.Points + ";" + newHighscore.Initials;
             msg = Encoding.ASCII.GetBytes(obj);
             sender.BeginSend(msg, 0, msg.Length, 0, new AsyncCallback(SendCallback), sender);
+            Thread.Sleep(100);
 
             sender.Close();
         }

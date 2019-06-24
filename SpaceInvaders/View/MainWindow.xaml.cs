@@ -219,7 +219,6 @@ namespace View
                     playground.Children.Remove(imgk);
                     kingdomHearts.Remove(imgk);
                 }
-                highscore += alien.Points;
                 alien.Dead = true;
                 isEnemyAlive();
                 playground.Children.Remove(imgl);
@@ -365,6 +364,7 @@ namespace View
                         {
                             shot.Alive = false;
                             playground.Children.Remove(imgs);
+                            highscore += alien.Points;
                             alien.Dead = true;
                             isEnemyAlive();
                             playground.Children.Remove(imga);
