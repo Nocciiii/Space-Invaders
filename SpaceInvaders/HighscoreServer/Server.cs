@@ -70,9 +70,10 @@ namespace HighscoreServer
             byte[] msg = null;
             foreach (Highscore h in highscores)
             {
-                    String obj = h.Points+'~'+h.Initials;
+                    String obj = h.Points+";"+h.Initials;
                     msg = Encoding.ASCII.GetBytes(obj);
                     handler.BeginSend(msg, 0, msg.Length, 0, new AsyncCallback(SendCallback), handler);
+                    Thread.Sleep(100);
             }
             handler.Close();
         }
@@ -99,7 +100,7 @@ namespace HighscoreServer
         private void WriteHighscore(String o)
         {
             String sendHighscore = o;
-            String[]splitHighscore=sendHighscore.Split('~');
+            String[]splitHighscore=sendHighscore.Split(';');
             Highscore h = new Highscore();
             h.Points = Convert.ToInt32(splitHighscore[0]);
             h.Initials = splitHighscore[1];
