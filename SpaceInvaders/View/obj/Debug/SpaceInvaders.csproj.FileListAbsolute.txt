@@ -104,3 +104,5 @@ C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders
 C:\Users\Jamie\Desktop\Vorrat für Unterwegs\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainMenu.g.cs
 C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainMenu.g.cs
 C:\Users\AdelmannTimo\Downloads\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainMenu.baml
+C:\Users\KuemmertJamie\Downloads\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainMenu.g.cs
+C:\Users\KuemmertJamie\Downloads\Space-Invaders-master\SpaceInvaders\View\obj\Debug\MainMenu.baml

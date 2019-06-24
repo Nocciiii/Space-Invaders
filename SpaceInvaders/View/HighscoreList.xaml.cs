@@ -64,7 +64,7 @@ namespace View
             byte[] msg = null;
             //msg for protocoll
             msg = Encoding.ASCII.GetBytes("1");
-            sender.Send(msg);
+            sender.BeginSend(msg, 0, msg.Length, 0, new AsyncCallback(SendCallback), sender);
             while (true)
             {
                 int  bytesRec = sender.Receive(bytes);
@@ -75,6 +75,11 @@ namespace View
                 h.Initials = splitHighscore[1];
                 listHighscores.Add(h);
             }
+        }
+        private static void SendCallback(IAsyncResult ar)
+        {
+            Socket send = (Socket)ar.AsyncState;
+            send.EndSend(ar);
         }
     }
 }

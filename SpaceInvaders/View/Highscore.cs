@@ -36,5 +36,10 @@ namespace View
                 initials = value;
             }
         }
+
+        public override string ToString()
+        {
+            return Initials+Points.ToString();
+        }
     }
 }

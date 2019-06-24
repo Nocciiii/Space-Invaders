@@ -62,7 +62,7 @@ namespace View
         }
         private void SendHighscore(Highscore newHighscore)
         {
-            IPHostEntry host = Dns.GetHostEntry("localhost");
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress = host.AddressList[0];
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8008);
 
@@ -74,16 +74,18 @@ namespace View
             }
             catch (Exception e)
             {
-
+                Console.Write(e.StackTrace);
             }
             byte[] msg = null;
             //msg for protocoll
             msg = Encoding.ASCII.GetBytes("2");
-            sender.Send(msg);
+            sender.BeginSend(msg, 0, msg.Length, 0, new AsyncCallback(SendCallback), sender);
             //actual message
-                String obj = newHighscore.ToString();
-                msg = Encoding.ASCII.GetBytes(obj);
-                sender.Send(msg);
+            String obj = newHighscore.Points + '~' + newHighscore.Initials;
+            msg = Encoding.ASCII.GetBytes(obj);
+            sender.BeginSend(msg, 0, msg.Length, 0, new AsyncCallback(SendCallback), sender);
+
+            sender.Close();
         }
         private void ToHighscorelist()
         {
@@ -91,6 +93,12 @@ namespace View
             this.Visibility = Visibility.Hidden;
             highscorelist.Visibility = Visibility.Visible;
             this.Close();
+        }
+
+        private static void SendCallback(IAsyncResult ar)
+        {
+            Socket send = (Socket)ar.AsyncState;
+            send.EndSend(ar);
         }
     }
 }
