@@ -18,6 +18,8 @@ namespace HighscoreServer
         private List<Highscore> highscores = new List<Highscore>();
         private int port = 8008;
         byte[] bytes = new byte[1024];
+        Socket handler;
+        Socket listener;
 
         static void Main(string[] args)
         {
@@ -33,12 +35,12 @@ namespace HighscoreServer
             IPAddress ipAddress = host.AddressList[0];
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
             Console.Write("Server gestartet");
+            listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            listener.Bind(localEndPoint);
+            listener.Listen(100);
             while (true)
             {
-                Socket listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                listener.Bind(localEndPoint);
-                listener.Listen(100);
-                Socket handler=listener.Accept();
+                handler=listener.Accept();
                 Thread t = new Thread(() => HandleRequestFromClient(handler));
                 t.Start();
             }
@@ -60,7 +62,6 @@ namespace HighscoreServer
                 highscores.Add(h);
             }
             highscores.OrderBy(x => x.Points);
-
             con.Close();
         }
         private void Send(Socket handler)
@@ -69,10 +70,11 @@ namespace HighscoreServer
             byte[] msg = null;
             foreach (Highscore h in highscores)
             {
-                    String obj = h.ToString();
+                    String obj = h.Points+'~'+h.Initials;
                     msg = Encoding.ASCII.GetBytes(obj);
-                    handler.Send(msg);
+                    handler.BeginSend(msg, 0, msg.Length, 0, new AsyncCallback(SendCallback), handler);
             }
+            handler.Close();
         }
         public void HandleRequestFromClient(Socket handler)
         {
@@ -92,12 +94,11 @@ namespace HighscoreServer
         {
             int bytesRec = handler.Receive(bytes);
             String obj = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-            Object h = (Object)obj;
-            WriteHighscore(h);
+            WriteHighscore(obj);
         }
-        private void WriteHighscore(Object o)
+        private void WriteHighscore(String o)
         {
-            String sendHighscore = (String)o;
+            String sendHighscore = o;
             String[]splitHighscore=sendHighscore.Split('~');
             Highscore h = new Highscore();
             h.Points = Convert.ToInt32(splitHighscore[0]);
@@ -111,7 +112,13 @@ namespace HighscoreServer
             com.Parameters.AddWithValue(h.Initials, h.Points);
             com.ExecuteNonQuery();
 
+            handler.Close();
             con.Close();
+        }
+        private static void SendCallback(IAsyncResult ar)
+        {
+            Socket send = (Socket)ar.AsyncState;
+            send.EndSend(ar);
         }
     }
 }
